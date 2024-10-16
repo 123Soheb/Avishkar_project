@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Matrix Operations Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      #resultMatrix {
+        visibility: hidden;
+      }
+      .header {
+        padding: 20px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        background-color: #37ac4e;
+        color: white;
+        border-radius: 19px;
+      }
+      .matrix-container {
+        display: inline-block;
+        margin: 20px;
+      }
+      .matrix {
+        display: grid;
+        grid-template-columns: repeat(3, 40px);
+        gap: 5px;
+        border: 1px solid #bd4b4b;
+        padding: 10px;
+      }
+      .matrix input {
+        width: 40px;
+        text-align: center;
+        background-color: #35eb08;
+      }
+      p {
+        height: 50px;
+        width: 400px;
+        margin: 20px;
+        font-size: 25px;
+        background-color: #37ac4e;
+        padding: 20px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      .step {
+        margin-bottom: 5px;
+        transition: 0.5s;
+      }
+
+      .matrix:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      button {
+        margin-top: 10px;
+        height: 50px;
+        width: auto;
+        font-size: 25px;
+        background-color: #37ac4e;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="header">Matrix Operations Visualization</h1>
+    <h2>Write the value in box</h2>
+
+    <div class="matrix-container" id="message">
+      <h2>Matrix A</h2>
+      <div class="matrix" id="matrixA">
+        <input type="number" value="1" />
+        <input type="number" value="2" />
+        <input type="number" value="3" />
+        <input type="number" value="4" />
+        <input type="number" value="5" />
+        <input type="number" value="6" />
+        <input type="number" value="7" />
+        <input type="number" value="8" />
+        <input type="number" value="9" />
+      </div>
+    </div>
+
+    <div class="matrix-container" id="message">
+      <h2>Matrix B</h2>
+      <div class="matrix" id="matrixB">
+        <input type="number" value="9" />
+        <input type="number" value="8" />
+        <input type="number" value="7" />
+        <input type="number" value="6" />
+        <input type="number" value="5" />
+        <input type="number" value="4" />
+        <input type="number" value="3" />
+        <input type="number" value="2" />
+        <input type="number" value="1" />
+      </div>
+    </div>
+
+    <button onclick="addMatrices()">Add Matrices</button>
+    <button onclick="multiplyMatrices()">Multiply Matrices</button>
+
+    <div class="matrix-container">
+      <h2>Result Matrix</h2>
+      <div class="matrix" id="resultMatrix"></div>
+    </div>
+
+    <div class="steps">
+      <h2>Steps</h2>
+      <div class="step" id="steps"></div>
+    </div>
+
+    <script>
+      let result1 = document.getElementById("resultMatrix");
+
+      function getMatrixValues(matrixId) {
+        const matrixInputs = document.querySelectorAll(`#${matrixId} input`);
+        return Array.from(matrixInputs).map((input) => parseFloat(input.value));
+      }
+
+      function displayMatrix(matrix, matrixId) {
+        const matrixDiv = document.getElementById(matrixId);
+        matrixDiv.innerHTML = "";
+        matrixDiv.style.visibility = "visible";
+        matrix.forEach((value) => {
+          const input = document.createElement("input");
+          input.type = "number";
+          input.value = value;
+          input.readOnly = true;
+          matrixDiv.appendChild(input);
+        });
+      }
+
+      function displaySteps(steps) {
+        const stepsDiv = document.getElementById("steps");
+        stepsDiv.innerHTML = "";
+        steps.forEach((step) => {
+          const stepElement = document.createElement("p");
+          stepElement.textContent = step;
+          stepsDiv.appendChild(stepElement);
+        });
+      }
+
+      async function addMatrices() {
+        const matrixA = getMatrixValues("matrixA");
+        const matrixB = getMatrixValues("matrixB");
+        const result = matrixA.map((value, index) => {
+          const sum = value + matrixB[index];
+          return ` Element : ${value} + ${matrixB[index]} = ${sum}`;
+        });
+        const sum = matrixA.map((value, index) => value + matrixB[index]);
+        displayMatrix(sum, "resultMatrix");
+        await displaySteps(result);
+      }
+
+      async function multiplyMatrices() {
+        const matrixA = getMatrixValues("matrixA");
+        const matrixB = getMatrixValues("matrixB");
+        const result = [];
+        const steps = [];
+
+        // Perform matrix multiplication
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            let sum = 0;
+            let step = "Element = ";
+            for (let k = 0; k < 3; k++) {
+              sum += matrixA[i * 3 + k] * matrixB[k * 3 + j];
+              step += `(${matrixA[i * 3 + k]} * ${matrixB[k * 3 + j]})`;
+              if (k < 2) {
+                step += " + ";
+              }
+            }
+            result.push(sum);
+            step += ` = ${sum}`;
+            steps.push(step);
+          }
+        }
+
+        displayMatrix(result, "resultMatrix");
+        await displaySteps(steps);
+      }
+
+      async function displayStepsWithDelay(data) {
+        const stepsDiv = document.getElementById("steps");
+        stepsDiv.innerHTML = "";
+
+        for (const item of data) {
+          const stepElement = document.createElement("div");
+          stepElement.textContent = item;
+          stepsDiv.appendChild(stepElement);
+          await sleep(1000);
+        }
+      }
+
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+    </script>
+  </body>
+</html>

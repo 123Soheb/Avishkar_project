@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stack Data Structure</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+
+      /* Styling for the stack container */
+      .stack-container {
+        width: 300px;
+        margin: 0 auto;
+        border: 2px solid #333;
+        padding: 20px;
+        text-align: center;
+        background-color: #f9f9f9;
+      }
+
+      /* Styling for stack items */
+      .stack-item {
+        background-color: #555;
+        color: #fff;
+        padding: 5px;
+        margin-bottom: 5px;
+        border: 1px solid #333;
+      }
+      .explanation {
+        background-color: #f9f9f9;
+        padding: 20px;
+        margin: 20px;
+        border: 2px solid #333;
+        text-align: justify;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Stack Data Structure</h1>
+
+    <p>
+      A stack is a linear data structure that follows the Last In, First Out
+      (LIFO) principle. In a stack, elements are added and removed from the same
+      end, known as the "top" of the stack. It's commonly used for various
+      applications, including function call management, parsing expressions, and
+      more.
+    </p>
+    <br /><br />
+    <center><a href="stack.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <h1>Stack Visualization</h1>
+    <div class="stack-container">
+      <div class="stack-item">Item 1</div>
+      <div class="stack-item">Item 2</div>
+      <div class="stack-item">Item 3</div>
+      <div class="stack-item">Item 4</div>
+      <div class="stack-item">Item 5</div>
+    </div>
+    <p>
+      A stack is a fundamental data structure that follows the Last In, First
+      Out (LIFO) principle. It behaves much like a real-world stack of objects,
+      where you can only add or remove items from the top. This means that the
+      most recently added item is the first to be removed.
+    </p>
+
+    <p>Stacks are used in a wide range of applications, including:</p>
+    <ul>
+      <li>Managing function calls and local variables in programming.</li>
+      <li>Undo functionality in applications.</li>
+      <li>Expression evaluation and parsing.</li>
+      <li>Backtracking algorithms in search problems.</li>
+    </ul>
+
+    <h1>Working of a Stack</h1>
+    <div class="explanation">
+      <p>
+        Imagine a stack as a collection of items placed on top of each other.
+        You can only interact with the top item. There are two primary
+        operations associated with a stack:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Push:</strong> This operation adds an item to the top of the
+          stack. It's analogous to placing an object on top of a physical stack.
+        </li>
+        <li>
+          <strong>Pop:</strong> This operation removes the top item from the
+          stack. It's like taking the top item from the physical stack.
+        </li>
+      </ul>
+
+      <p>Let's illustrate the working of a stack with a simple example:</p>
+
+      <ol>
+        <li>Initially, the stack is empty.</li>
+        <li>
+          We perform a <strong>Push</strong> operation to add "Item 1" to the
+          stack. The stack now looks like this:
+        </li>
+        <div class="stack-container">
+          <div class="stack-item">Item 1</div>
+        </div>
+        <li>
+          We perform another <strong>Push</strong> operation to add "Item 2" to
+          the stack. The stack now looks like this:
+        </li>
+        <div class="stack-container">
+          <div class="stack-item">Item 1</div>
+          <div class="stack-item">Item 2</div>
+        </div>
+        <li>
+          Next, we perform a <strong>Pop</strong> operation to remove "Item 2"
+          from the stack. The stack becomes:
+        </li>
+        <div class="stack-container">
+          <div class="stack-item">Item 1</div>
+        </div>
+        <li>
+          We perform another <strong>Push</strong> operation to add "Item 3" to
+          the stack. The stack now looks like this:
+        </li>
+        <div class="stack-container">
+          <div class="stack-item">Item 1</div>
+          <div class="stack-item">Item 3</div>
+        </div>
+      </ol>
+
+      <p>
+        This process continues, and items are added or removed from the top of
+        the stack. It's important to note that you can't directly access or
+        modify items in the middle or bottom of the stack; you must work with
+        the top item.
+      </p>
+    </div>
+  </body>
+</html>

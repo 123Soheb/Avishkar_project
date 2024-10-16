@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>top site</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="output.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Sofia&effect=fire"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+
+    <style>
+      .col1 {
+        background-color: yellow;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        margin: 3px;
+      }
+
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+        border: 2px solid black;
+        border-radius: 50px;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        font-size: 100%;
+        justify-content: center;
+      }
+
+      .main {
+        text-decoration: none;
+        color: rgb(13, 12, 12) !important;
+        width: 600px;
+        height: 60px;
+        background-color: rgb(21, 206, 230);
+        animation-name: example;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+        border-bottom: 8px solid #e9e510;
+        animation-direction: alternate;
+        border-radius: 15px;
+      }
+      a {
+        color: black;
+        text-decoration: none;
+      }
+
+      @keyframes example {
+        0% {
+          background-color: rgb(21, 255, 0);
+        }
+        25% {
+          background-color: rgb(208, 255, 0);
+        }
+        50% {
+          background-color: rgb(4, 237, 74);
+        }
+        100% {
+          background-color: rgba(166, 183, 187, 0.718);
+        }
+      }
+      .grid-container {
+        text-align: center;
+        padding: 10px;
+        margin: 20px;
+      }
+      .grid-container > div {
+        padding: 10px;
+        font-size: 50px;
+      }
+      .ani1 {
+        padding: 20px;
+        font-family: Poppins;
+        font-size: 30px;
+        text-align: center;
+        font-weight: 800;
+        letter-spacing: 1px;
+        background: linear-gradient(
+          135deg,
+          #e0a912,
+          #fed90f,
+          #00a2ff,
+          #09f1b8,
+          #ff00d2,
+          #fed90f,
+          #00a2ff,
+          #09f1b8
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient 5s infinite;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      @keyframes gradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      :root {
+        --clr-neon: #e3f027;
+        --clr-bg: #12001b;
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        background: var(--clr-bg);
+        font-family: Poppins;
+        color: var(--clr-neon);
+      }
+      .item1 {
+        color: var(--clr-neon);
+        display: inline-block;
+        cursor: pointer;
+        text-decoration: none;
+        border: var(--clr-neon) 0.125em solid;
+        padding: 20px;
+        text-align: center;
+        border-radius: 0.25em;
+        text-shadow: 0 0 0.125em hsl(240, 17%, 91%), 0 0 0.25em currentColor;
+        box-shadow: insert 0 0 1em 0 var(--clr-neon), 0 0 1em 0 var(--clr-neon);
+        position: relative;
+      }
+      .item1::before {
+        content: "";
+        position: absolute;
+        background: var(--clr-neon);
+        top: 120%;
+        left: 0;
+        width: 70%;
+        height: 100%;
+        transform: perspective(1em) rotateX(40deg) scale(1, 0.2);
+        filter: blur(1em);
+        opacity: 0.7;
+      }
+      .item1::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        box-shadow: 0 0 1em 0.2em var(--clr-neon);
+        opacity: 0;
+        background-color: var(--clr-neon);
+        z-index: -1;
+      }
+      .item1:hover,
+      .item1:focus {
+        color: var(--clr-bg);
+      }
+      .item1:hover::after,
+      .item1:focus::after {
+        opacity: 1;
+      }
+      .item1:hover::before,
+      .item1:focus::before {
+        opacity: 1;
+      }
+
+      .lean {
+        text-align: center;
+        color: #0b0b0b;
+        text-transform: uppercase;
+        -webkit-box-reflect: below 1px linear-gradient(transparent, #0008);
+        outline: none;
+        animation: animate 5s linear infinite;
+      }
+      @keyframes animate {
+        0%,
+        18%,
+        20%,
+        50.1%,
+        60%,
+        65.1%,
+        80%,
+        90.1%,
+        92% {
+          color: #000000;
+          box-shadow: none;
+        }
+        18.1%,
+        20.1%,
+        30%,
+        50%,
+        80.1%,
+        90%,
+        92.1%,
+        1%,
+        00% {
+          color: #fff;
+          text-shadow: 0 0 10px #03bcf4, 0 0 20px #03bcf4, 0 0 40px #03bcf4,
+            0 0 80px #03bcf4, 0 0 40px #03bcf4;
+        }
+      }
+      @media (max-width: 700px) and (min-width: 400px) {
+        .lean {
+          font-size: 40px;
+        }
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .lean {
+          font-size: 30px;
+        }
+        .grid-container > div {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header
+        class="flex shadow-md py-4 px-4 sm:px-10 bg-white font-[sans-serif] min-h-[70px] tracking-wide relative z-50 col1"
+      >
+        <div class="flex flex-wrap items-center justify-between gap-5 w-full">
+          <div>
+            <img src="simg.png" />
+            <i
+              class="font-effect-fire"
+              style="font-size: 20px; padding: auto; margin-left: 20px"
+              >SOHEB</i
+            >
+          </div>
+          <div class="lean text-7xl">Learn ALGORITHM</div>
+
+          <div class="flex max-lg:ml-auto space-x-3">
+            <button
+              class="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]"
+            >
+              Login
+            </button>
+            <button
+              class="px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#007bff] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]"
+            >
+              Sign up
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <h2 class="ani1">ALGORITHM VISUALIZER</h2>
+      <div class="grid-container">
+        <div>
+          <a href="main.html" class="item1">Start Visualizer</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insertion Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Insertion Sort Algorithm</h1>
+
+    <p>
+      In this article, we will discuss the Insertion Sort Algorithm. Insertion
+      sort is a simple sorting algorithm that builds the final sorted array one
+      item at a time. It is much less efficient on large lists than more
+      advanced algorithms such as quicksort, heapsort, or merge sort, but it can
+      be useful for small datasets or as part of more complex sorting
+      algorithms.
+    </p>
+    <br /><br />
+    <center><a href="insertion.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <h1>Algorithm</h1>
+    <pre>
+        Complexity does not matter
+        Simple and short code is preferred
+        Algorithm
+        In the algorithm given below, suppose arr is an array of n elements. The insertion sort algorithm will sort the given array in-place.
+
+        begin InsertionSort(arr)  
+           for i from 1 to n-1
+               key = arr[i]
+               j = i - 1
+               while j >= 0 and arr[j] > key
+                   arr[j + 1] = arr[j]
+                   j = j - 1
+               end while
+               arr[j + 1] = key
+           end for     
+           return arr     
+        end InsertionSort
+    </pre>
+    <h1>Working of Insertion Sort Algorithm</h1>
+    <pre>
+ 
+        Now, let's see the working of the Insertion Sort Algorithm.
+
+        To understand the working of the insertion sort algorithm, let's take an unsorted array. We will go through the step-by-step process of sorting the array using insertion sort.
+
+        [Insertion Sort Steps Here]
+        Insertion Sort is an intuitive sorting algorithm that operates on the principle of building a sorted portion of an array while iterating through its unsorted part. Here's a more detailed breakdown of its step-by-step execution:
+
+        Initialization: Start with the second element (index 1) of the array, assuming that the first element (index 0) is already sorted.
+        
+        Iterative Process: For each unsorted element in the array, perform the following steps:
+        
+        Select the Key: Take the current unsorted element as the "key" that needs to be inserted into its correct position in the sorted portion.
+        Comparison and Shifting: Compare the key with the elements in the sorted part of the array, moving from right to left.
+        While the key is smaller than the elements being compared, shift those elements one position to the right to make space for the key.
+        Insertion: When you find the correct position for the key (i.e., when the key is not smaller than the element on its left), insert it there.
+        Repeat: Continue this process for each unsorted element in the array until the entire array is sorted.
+        
+        End: The array is now fully sorted, with all elements in their correct order.
+        
+        Illustration with an Example:
+        
+        Let's illustrate the Insertion Sort algorithm with a concrete example using the array [5, 2, 9, 3, 6].
+        
+        Step 1: Initial Array: [5, 2, 9, 3, 6] (Element 5 is assumed to be in the sorted portion initially).
+        
+        Step 2: Iteration 1
+        
+        Key = 2
+        Compare 2 with 5 (the sorted part).
+        2 < 5, so shift 5 to the right.
+        Updated array: [2, 5, 9, 3, 6]
+        Step 3: Iteration 2
+        
+        Key = 9
+        Compare 9 with 5.
+        9 > 5, so the key stays in its current position.
+        Array remains the same.
+        Step 4: Iteration 3
+        
+        Key = 3
+        Compare 3 with 9 and then with 5.
+        3 < 9, so shift 9 to the right.
+        Compare 3 with 5.
+        3 < 5, so shift 5 to the right.
+        Insert 3 in its correct position.
+        Updated array: [2, 3, 5, 9, 6]
+        Step 5: Iteration 4
+        
+        Key = 6
+        Compare 6 with 9.
+        6 < 9, so shift 9 to the right.
+        Compare 6 with 5.
+        6 > 5, so the key stays in its current position.
+        Array remains the same.
+        Step 6: Final Array (Fully Sorted): [2, 3, 5, 6, 9]
+        
+        This detailed breakdown illustrates how Insertion Sort systematically moves through the array, inserting each element into its appropriate position within the sorted part, resulting in a fully sorted array.
+        
+        Insertion Sort's simplicity and efficiency for small datasets make it a valuable sorting technique in various situations, especially when you're dealing with partially sorted data. However, its time complexity of O(n^2) makes it less suitable for large datasets compared to more efficient algorithms like Quick Sort or Merge Sort.ort.
+    </pre>
+  </body>
+</html>

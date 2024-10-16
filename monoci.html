@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Monoalphabetic Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin-top: 50px;
+      }
+      h2 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #df21bf;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        margin-bottom: 5px;
+
+        font-size: 25px;
+      }
+      input {
+        width: 300px;
+        padding: 5px;
+        margin: 5px;
+      }
+      button {
+        margin-top: 10px;
+
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #df21bf;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 25px;
+        border: 5px solid black;
+        visibility: hidden;
+        padding: 10px;
+        background-color: #df21bf;
+        width: fit-content;
+      }
+
+      .res:hover {
+        box-shadow: 10px 10px 10px 10px;
+        text-align: center;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      #message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+        resize: none;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      .mess:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      #mapping {
+        font-size: 25px;
+      }
+      .highlight {
+        background-color: yellow;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 0 solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      table {
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+      .used {
+        background-color: #df21bf;
+
+        cursor: pointer;
+        transition: 0.5s;
+        border: 1px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: #df21bf;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Monoalphabetic Cipher Visualization</h2>
+      <label for="message">Message:</label>
+      <textarea
+        type="text"
+        id="message"
+        class="mess"
+        placeholder="Enter your message"
+      ></textarea>
+      <br />
+      <label for="key">Key:</label>
+      <input type="text" id="key" placeholder="Enter your key" />
+      <br />
+      <button id="startResetButton" onclick="startOrReset()">Encrypt</button>
+      <div id="result" class="res"></div>
+      <div id="mapping"></div>
+    </div>
+
+    <script>
+      const alphabet = "abcdefghijklmnopqrstuvwxyz";
+      var isSorting = false;
+
+      function encrypt() {
+        const message = document.getElementById("message").value.toLowerCase();
+        const key = document.getElementById("key").value.toLowerCase();
+
+        if (/\d+/.test(message)) {
+          alert("Enter the plain text");
+          return;
+        }
+        if (/\d+/.test(key)) {
+          alert("Enter the plain text");
+          return;
+        }
+
+        if (!message || !key) {
+          alert("Please enter both a message and a key.");
+          return;
+        }
+
+        let encryptedMessage = "";
+        let highlightedMessage = "";
+        let highlightedKey = "";
+
+        for (let i = 0; i < message.length; i++) {
+          const char = message[i];
+          const index = alphabet.indexOf(char);
+
+          if (index !== -1) {
+            const keyChar = key[index % key.length];
+            encryptedMessage += keyChar;
+
+            highlightedMessage += `<span class="highlight">${char}</span>`;
+            highlightedKey += `<span class="highlight">${keyChar}</span>`;
+          } else {
+            encryptedMessage += char;
+            highlightedMessage += char;
+            highlightedKey += "";
+          }
+        }
+
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `Encrypted Message: ${highlightedKey} (Key: ${highlightedMessage})`;
+        resultDiv.style.visibility = "visible";
+
+        displayMapping(key);
+      }
+
+      function displayMapping(key) {
+        const mappingDiv = document.getElementById("mapping");
+        mappingDiv.innerHTML = "<h3>Mapping:</h3>";
+
+        const table = document.createElement("table");
+        const headerRow = document.createElement("tr");
+        const headerAlphabet = document.createElement("th");
+        headerAlphabet.textContent = "Alphabet";
+        headerRow.appendChild(headerAlphabet);
+
+        const headerKey = document.createElement("th");
+        headerKey.textContent = "Key";
+        headerRow.appendChild(headerKey);
+
+        table.appendChild(headerRow);
+
+        for (let i = 0; i < alphabet.length; i++) {
+          const row = document.createElement("tr");
+          const alphabetCell = document.createElement("td");
+          alphabetCell.textContent = alphabet[i];
+          row.appendChild(alphabetCell);
+
+          const keyCell = document.createElement("td");
+          const keyLetter = key[i % key.length];
+          keyCell.textContent = keyLetter;
+
+          // Add a class to highlight the cells that correspond to key letters used
+          if (keyLetter !== " ") {
+            keyCell.classList.add("used");
+          }
+
+          row.appendChild(keyCell);
+          table.appendChild(row);
+        }
+
+        mappingDiv.appendChild(table);
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          encrypt();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Encrypt";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

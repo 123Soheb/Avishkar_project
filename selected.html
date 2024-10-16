@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Sorting Visualizer</title>
+
+    <style>
+      .mySlides {
+        display: none;
+      }
+
+      body {
+        font-family: Verdana, sans-serif;
+      }
+
+      .head {
+        margin-top: 20px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        padding: 10px;
+        margin-bottom: 10px;
+        text-align: center;
+        font-size: 30px;
+        background-color: #6f459e;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+
+      .data-container {
+        width: 900px;
+        height: 384px;
+        position: relative;
+        margin: 0 auto;
+        border: 3px solid #6f459e;
+      }
+
+      .bar {
+        width: 28px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        background-color: #12b4dc;
+        transition: 0.2s all ease;
+      }
+
+      .bar_id {
+        color: black;
+        margin-top: -24px;
+        width: 100%;
+        display: block;
+        text-align: center;
+      }
+      .btn1 {
+        padding: 12px;
+        font-weight: bolder;
+        background-color: #6f459e;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        border: white;
+        margin-top: 4vw;
+      }
+      .btn2 {
+        padding: 12px;
+        font-weight: bolder;
+        background-color: #6f459e;
+        margin-right: 10px;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        border: white;
+        padding: 10px 20px;
+      }
+      button {
+        padding: 12px;
+        font-weight: bolder;
+        background-color: #6f459e;
+        border-radius: 10px;
+        margin-right: 10px;
+        color: white;
+        font-size: 16px;
+        border: white;
+        padding: 10px 20px;
+      }
+      div {
+        text-align: center;
+      }
+      p {
+        border: 3px solid #6f459e;
+        width: 70%;
+        padding: 10px;
+      }
+      .container {
+        border: 2px solid black;
+        min-width: 60rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="head">Selection Sort Visualizer</h1>
+      <section class="data-container"></section>
+      <center><div id="sortingStatus"></div></center>
+      <div id="sortingStatus" style="color: aliceblue"></div>
+
+      <button class="btn1" onclick="generate()" id="Button1">
+        Generate New Array
+      </button>
+      <button id="startResetButton" onclick="startOrReset()">
+        Selection Start
+      </button>
+      <button onclick="setAnimationSpeed('slow')">Slow</button>
+      <button onclick="setAnimationSpeed('normal')">Normal</button>
+      <button onclick="setAnimationSpeed('fast')">Fast</button>
+      <p>
+        <b
+          >In selection sort, the first smallest element is selected from the
+          unsorted array and placed at the first position. <br />
+          After that second smallest element is selected and placed in the
+          second position. <br />The process continues until the array is
+          entirely sorted.</b
+        >
+      </p>
+    </div>
+  </body>
+
+  <script>
+    var isSorting = false;
+    const container = document.querySelector(".data-container");
+    function generatebars(num = 30) {
+      for (let i = 0; i < num; i += 1) {
+        const value = Math.floor(Math.random() * 100) + 1;
+        const bar = document.createElement("div");
+        bar.classList.add("bar");
+        bar.style.height = `${value * 3}px`;
+        bar.style.transform = `translateX(${i * 30}px)`;
+        const barLabel = document.createElement("label");
+        barLabel.classList.add("bar_id");
+        barLabel.innerHTML = value;
+        bar.appendChild(barLabel);
+        container.appendChild(bar);
+      }
+    }
+    async function SelectionSort() {
+      let bars = document.querySelectorAll(".bar");
+      var min_idx = 0;
+      for (var i = 0; i < bars.length; i += 1) {
+        min_idx = i;
+        bars[i].style.backgroundColor = "darkblue";
+        for (var j = i + 1; j < bars.length; j += 1) {
+          bars[j].style.backgroundColor = "red";
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, animationSpeed)
+          );
+          var val1 = parseInt(bars[j].childNodes[0].innerHTML);
+          var val2 = parseInt(bars[min_idx].childNodes[0].innerHTML);
+
+          if (val1 < val2) {
+            if (min_idx !== i) {
+              bars[min_idx].style.backgroundColor = " rgb(24, 190, 255)";
+            }
+            min_idx = j;
+          } else {
+            bars[j].style.backgroundColor = " rgb(24, 190, 255)";
+          }
+        }
+        var temp1 = bars[min_idx].style.height;
+        var temp2 = bars[min_idx].childNodes[0].innerText;
+        bars[min_idx].style.height = bars[i].style.height;
+        bars[i].style.height = temp1;
+        bars[min_idx].childNodes[0].innerText = bars[i].childNodes[0].innerText;
+        bars[i].childNodes[0].innerText = temp2;
+        await new Promise((resolve) =>
+          setTimeout(() => {
+            resolve();
+          }, animationSpeed)
+        );
+        bars[min_idx].style.backgroundColor = " rgb(24, 190, 255)";
+        bars[i].style.backgroundColor = " rgb(49, 226, 13)";
+      }
+      document.getElementById("sortingStatus").textContent =
+        "Sorting completed!";
+      document.getElementById("Button1").disabled = false;
+      document.getElementById("Button1").style.backgroundColor = "#6f459e";
+    }
+
+    let animationSpeed = 300;
+
+    function setAnimationSpeed(speed) {
+      switch (speed) {
+        case "slow":
+          animationSpeed = 800;
+          break;
+        case "normal":
+          animationSpeed = 300;
+          break;
+        case "fast":
+          animationSpeed = 100;
+          break;
+        default:
+          animationSpeed = 300;
+      }
+    }
+
+    function startOrReset() {
+      const button = document.getElementById("startResetButton");
+
+      if (!isSorting) {
+        // Start functionality
+        isSorting = true;
+        button.textContent = "Reset";
+        SelectionSort();
+      } else {
+        // Reset functionality
+        isSorting = false;
+        button.textContent = "Selection Start";
+        resetVisualization();
+      }
+    }
+
+    function resetVisualization() {
+      window.location.reload();
+    }
+
+    generatebars();
+
+    function generate() {
+      window.location.reload();
+    }
+
+    function disable() {
+      document.getElementById("Button1").disabled = true;
+      document.getElementById("Button1").style.backgroundColor = "#d8b6ff";
+    }
+  </script>
+</html>

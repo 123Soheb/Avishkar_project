@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Comb Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Comb Sort Algorithm</h1>
+
+    <p>
+      In this article, we will discuss the Comb Sort Algorithm. Comb Sort is a
+      variation of the Bubble Sort algorithm designed for improved performance.
+      It is known for its simplicity and efficiency. Understanding Comb Sort is
+      valuable for those looking for a sorting algorithm that bridges the gap
+      between Bubble Sort and more advanced techniques.
+    </p>
+    <br /><br />
+    <center><a href="comb.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Comb Sort is preferred in scenarios where:</span></p>
+    <li>Simplicity and ease of implementation are priorities.</li>
+    <li>Efficiency is required, especially for partially ordered datasets.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        Simplicity and ease of implementation are priorities.
+        Efficiency is required, especially for partially ordered datasets.
+        Algorithm
+        Comb Sort is an improvement over Bubble Sort and follows a similar principle of repeatedly comparing and swapping adjacent elements. However, it introduces a "gap" concept and performs multiple passes with varying gap sizes to improve efficiency. Here's a high-level summary of the algorithm:
+
+        1. **Set Initial Gap**: Initialize a gap value (initially equal to the size of the array) that determines the spacing between compared elements. Typically, the initial gap is set to a large value.
+
+        2. **Pass through Array**: Iterate through the array, comparing elements that are "gap" positions apart. If two elements are out of order, swap them.
+
+        3. **Reduce Gap**: After completing a pass through the entire array, reduce the gap size. A common reduction factor is 1.3 (approximately).
+
+        4. **Repeat**: Continue repeating steps 2 and 3 until the gap becomes 1. The final pass with a gap of 1 is similar to a Bubble Sort pass.
+
+        5. **Final Pass**: Perform a final pass with a gap of 1, which effectively performs a Bubble Sort. This pass ensures that any remaining out-of-order elements are correctly positioned.
+
+        begin CombSort(arr)  
+           n = length of arr
+           gap = n  // Initialize the gap
+           swapped = true
+           while gap > 1 or swapped
+               gap = max(1, int(gap / 1.3))  // Reduce the gap
+               swapped = false
+               for i from 0 to n - gap
+                   if arr[i] > arr[i + gap]
+                       swap(arr[i], arr[i + gap])
+                       swapped = true
+                   end if
+               end for
+           end while
+           return arr     
+        end CombSort
+    </pre>
+    <h1>Working of Comb Sort Algorithm</h1>
+    <pre>
+ 
+        Comb Sort is a variation of Bubble Sort designed to improve performance. It operates by repeatedly comparing and swapping elements with a variable gap size. Here's a detailed explanation of how it works:
+
+        1. **Initial Gap**: The algorithm starts with an initial gap value, typically set to the size of the array. This large gap allows for efficient swaps of elements that are far apart.
+
+        2. **Pass Through Array**: Comb Sort then makes passes through the entire array, comparing and swapping elements that are separated by the current gap. If two elements are out of order, they are swapped.
+
+        3. **Gap Reduction**: After completing a pass through the array, the gap is reduced. A common reduction factor is 1.3 (approximately). This reduction narrows the gap between compared elements, making the algorithm progressively behave like a Bubble Sort.
+
+        4. **Repeat Until Gap is 1**: The process of making passes and reducing the gap continues until the gap size becomes 1. At this point, the algorithm performs a final pass, which is effectively a Bubble Sort pass.
+
+        5. **Final Pass**: The final pass with a gap of 1 ensures that any remaining out-of-order elements are correctly positioned. This step guarantees that the entire array is sorted.
+
+        Comb Sort's performance improvement over Bubble Sort comes from its gap reduction strategy, which allows it to efficiently tackle partially ordered datasets. It exhibits an average-case time complexity of O(n^2), similar to Bubble Sort, but its efficiency can be noticeably better in practice.
+    </pre>
+  </body>
+</html>

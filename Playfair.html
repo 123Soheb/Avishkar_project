@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Playfair Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+
+        margin-top: 50px;
+      }
+      h2 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #d5142e;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        margin-bottom: 5px;
+
+        font-size: 25px;
+      }
+      #message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .mess:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      input {
+        width: 300px;
+        padding: 5px;
+        margin: 5px;
+      }
+      button {
+        padding: 8px 15px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+      textarea {
+        width: 100%;
+        height: 100px;
+        resize: none;
+      }
+      button {
+        margin-top: 10px;
+
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #d5142e;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 25px;
+        background-color: #d5142e;
+        padding: 10px;
+        border-radius: 10px;
+        border: 2px solid black;
+        visibility: hidden;
+        width: fit-content;
+      }
+
+      #result:hover {
+        box-shadow: 10px 10px 10px 10px;
+        text-align: center;
+        padding: 10px;
+        color: rgb(40, 37, 37);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: #eee715;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      #mapping {
+        font-size: 25px;
+      }
+      .matrix {
+        display: inline-block;
+        margin-top: 20px;
+        border-collapse: collapse;
+      }
+      .matrix th,
+      .matrix td {
+        border: 1px solid black;
+        padding: 8px;
+      }
+      .used {
+        background-color: lightgreen;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 0 solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      .highlight {
+        background-color: yellow;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 0px solid black;
+        animation-name: example;
+
+        animation-duration: 4s;
+      }
+      .cipher-letter {
+        background-color: yellow;
+        cursor: pointer;
+        transition: 0.5s;
+
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: #df21bf;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Playfair Cipher Visualization</h2>
+
+      <label for="message">Message:</label>
+      <textarea
+        type="text"
+        class="mess"
+        id="message"
+        placeholder="Enter your message"
+      ></textarea>
+      <br />
+      <label for="keyword">Keyword:</label>
+      <input type="text" id="keyword" placeholder="Enter keyword" />
+      <br />
+      <button onclick="encrypt()">Encrypt</button>
+      <div id="result"></div>
+      <div id="mapping"></div>
+    </div>
+
+    <script>
+      function createPlayfairMatrix(keyword) {
+        keyword = keyword.replace(/j/g, "i").toLowerCase();
+        const alphabet = "abcdefghiklmnopqrstuvwxyz";
+        const keySet = new Set(keyword);
+
+        for (let char of alphabet) {
+          if (!keySet.has(char)) {
+            keyword += char;
+          }
+        }
+
+        const matrix = [];
+        for (let i = 0; i < 5; i++) {
+          matrix.push([]);
+          for (let j = 0; j < 5; j++) {
+            matrix[i].push(keyword[i * 5 + j]);
+          }
+        }
+
+        return matrix;
+      }
+
+      function findPosition(matrix, letter) {
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 5; j++) {
+            if (matrix[i][j] === letter) {
+              return [i, j];
+            }
+          }
+        }
+      }
+
+      function encryptPair(pair, matrix) {
+        const [row1, col1] = findPosition(matrix, pair[0]);
+        const [row2, col2] = findPosition(matrix, pair[1]);
+
+        if (row1 === row2) {
+          return matrix[row1][(col1 + 1) % 5] + matrix[row2][(col2 + 1) % 5];
+        } else if (col1 === col2) {
+          return matrix[(row1 + 1) % 5][col1] + matrix[(row2 + 1) % 5][col2];
+        } else {
+          return matrix[row1][col2] + matrix[row2][col1];
+        }
+      }
+
+      function encrypt() {
+        const keyword = document.getElementById("keyword").value;
+        const message = document.getElementById("message").value.toLowerCase();
+
+        if (!keyword || !message) {
+          alert("Please enter both a keyword and a message.");
+          return;
+        }
+        if (/\d+/.test(message)) {
+          alert("Enter the plain text");
+          return;
+        }
+        if (/\d+/.test(keyword)) {
+          alert("Enter the plain text");
+          return;
+        }
+        const matrix = createPlayfairMatrix(keyword);
+        const processedMessage = message.replace(/j/g, "i").toLowerCase();
+
+        let encryptedMessage = "";
+        let usedLetters = new Set();
+
+        for (let i = 0; i < processedMessage.length; i += 2) {
+          let pair = processedMessage.slice(i, i + 2);
+          if (pair.length === 1) {
+            pair += "x";
+          }
+
+          const encryptedPair = encryptPair(pair, matrix);
+          encryptedMessage += `<span class="highlight">${encryptedPair}</span>`;
+
+          usedLetters.add(pair[0]);
+          usedLetters.add(pair[1]);
+        }
+
+        displayEncryptedMessage(encryptedMessage);
+        displayMapping(matrix, usedLetters);
+      }
+
+      function displayEncryptedMessage(message) {
+        const resultDiv = document.getElementById("result");
+        resultDiv.innerHTML = `Encrypted Message: ${message}`;
+        resultDiv.style.visibility = "visible";
+      }
+
+      function displayMapping(matrix, usedLetters) {
+        const mappingDiv = document.getElementById("mapping");
+        mappingDiv.innerHTML = "<h3>Mapping:</h3>";
+
+        const table = document.createElement("table");
+        table.classList.add("matrix");
+
+        for (let i = 0; i < 5; i++) {
+          const row = document.createElement("tr");
+          for (let j = 0; j < 5; j++) {
+            const cell = document.createElement("td");
+            const letter = matrix[i][j];
+            cell.textContent = letter;
+
+            if (usedLetters.has(letter)) {
+              cell.classList.add("used");
+            }
+
+            if (matrix[i][j] === " ") {
+              cell.classList.add("cipher-letter");
+            }
+
+            row.appendChild(cell);
+          }
+          table.appendChild(row);
+        }
+
+        mappingDiv.appendChild(table);
+      }
+    </script>
+  </body>
+</html>

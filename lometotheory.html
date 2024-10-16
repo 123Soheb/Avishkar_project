@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lomuto Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Lomuto Sort Algorithm</h1>
+
+    <p>
+      Lomuto Sort is a sorting algorithm often associated with the Lomuto
+      partition scheme in the Quick Sort algorithm. It's known for its
+      simplicity and ease of implementation. While it may not be as efficient as
+      some other sorting algorithms, it's still a valuable concept to
+      understand.
+    </p>
+    <br /><br />
+    <center><a href="quick1.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Lomuto Sort is preferred in scenarios where:</span></p>
+    <li>Efficiency and speed in sorting are not the primary concerns.</li>
+    <li>Simple and straightforward implementation is desired.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        Efficiency and speed in sorting are not the primary concerns.
+        Simple and straightforward implementation is desired.
+        Algorithm
+        Lomuto Sort is a straightforward sorting algorithm that operates by repeatedly selecting a "pivot" element and partitioning the array into two subarrays: elements less than the pivot and elements greater than or equal to the pivot. The subarrays are then recursively sorted.
+
+        Here's a simplified overview of the algorithm:
+
+        1. **Choose a Pivot**: Select a pivot element from the array. The choice of pivot can impact the algorithm's performance.
+
+        2. **Partitioning**: Rearrange the elements in the array so that all elements less than the pivot come before all elements greater than or equal to the pivot. This process is called partitioning.
+
+        3. **Recursive Sorting**: Recursively apply the Lomuto Sort algorithm to the subarrays created by the partitioning step.
+
+        begin LomutoSort(arr, low, high)  
+           if low < high
+               // Partition the array and get the pivot index
+               pivotIndex = LomutoPartition(arr, low, high)
+
+               // Recursively sort the subarrays
+               LomutoSort(arr, low, pivotIndex - 1)
+               LomutoSort(arr, pivotIndex + 1, high)
+           end if
+        end LomutoSort
+
+        begin LomutoPartition(arr, low, high)  
+           pivot = arr[high]
+           i = low - 1
+
+           loop
+               repeat
+                   i = i + 1
+               until arr[i] >= pivot
+
+               if i < high
+                   swap arr[i] and arr[j]
+               end if
+           end loop
+
+           // Swap the pivot into its correct position
+           swap arr[i] and arr[high]
+
+           return i
+        end LomutoPartition
+    </pre>
+    <h1>Working of Lomuto Sort</h1>
+    <pre>
+ 
+        Lomuto Sort is a straightforward sorting algorithm that operates by repeatedly selecting a "pivot" element and partitioning the array into two subarrays: elements less than the pivot and elements greater than or equal to the pivot. Here's a detailed explanation of how it works:
+
+        1. **Choose a Pivot**: The algorithm starts by selecting a pivot element from the array. The choice of pivot can impact the algorithm's performance.
+
+        2. **Partitioning**: The array is rearranged so that all elements less than the pivot come before all elements greater than or equal to the pivot. This partitioning is achieved using a loop and two pointers: `i` and `j`. `i` finds the first element greater than or equal to the pivot, and `j` tracks the current element being considered. When `i` finds such an element, it swaps it with `j`, ensuring that elements less than the pivot are on the left side, and those greater or equal are on the right side.
+
+        3. **Recursive Sorting**: After the partitioning step, the pivot is in its correct position. The algorithm then recursively sorts the subarrays to the left and right of the pivot, using the same Lomuto Sort algorithm.
+
+        Lomuto Sort is easy to implement but may not be as efficient as some other sorting algorithms. However, it's a useful concept to understand, particularly in the context of Quick Sort and partitioning schemes.
+    </pre>
+  </body>
+</html>

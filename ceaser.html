@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Caesar Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      h1 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #37ac4e;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      .container {
+        margin: 50px;
+        border: 2px solid black;
+      }
+      label {
+        display: block;
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 25px;
+      }
+
+      button {
+        margin-top: 10px;
+
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #37ac4e;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 25px;
+        border: 1px solid #ccc;
+        width: fit-content;
+        background-color: #37ac4e;
+        padding: 20px;
+        display: none;
+        border: 5px solid black;
+        justify-content: space-between;
+      }
+      #result:hover {
+        box-shadow: 10px 10px 10px 10px;
+        font-size: 25px;
+        background-color: #4bd2cb;
+
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+
+      #steps {
+        margin-top: 20px;
+        /* background-color: #37ac4e; */
+        color: white;
+        padding: 10px;
+      }
+      #message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+        resize: none;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      #message:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      .mess:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .step {
+        height: 50px;
+        width: 200px;
+        margin: 20px;
+        font-size: 25px;
+        background-color: #37ac4e;
+        padding: 20px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Caesar Cipher Visualization</h1>
+      <label for="message">Message:</label>
+      <center>
+        <textarea
+          id="message"
+          class="mess"
+          placeholder="Enter your message"
+        ></textarea>
+      </center>
+      <label for="shift">Shift (0-25):</label>
+      <center>
+        <input
+          type="number"
+          id="shift"
+          min="0"
+          max="25"
+          oninput="validateInput(this)"
+          value="3"
+          style="font-size: 30px"
+        />
+        <button id="startResetButton" class="bt1" onclick="startOrReset()">
+          Encrypt
+        </button>
+      </center>
+      <!-- <button onclick="encrypt()" class="bt1">Encrypt</button> -->
+      <center>
+        <span id="error-message"></span>
+        <div id="result"></div>
+        <div id="steps"></div>
+      </center>
+    </div>
+
+    <script>
+      function validateInput(inputField) {
+        const errorMessage = document.getElementById("error-message");
+        if (inputField.value < 0 || inputField.value > 25) {
+          errorMessage.textContent =
+            "Invalid input. Please enter a number between 0 and 25.";
+          inputField.style.border = "3px solid red";
+        } else {
+          errorMessage.textContent = "";
+          inputField.style.border = "";
+        }
+      }
+
+      var isSorting = false;
+      function sleep(ms) {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+      }
+
+      async function encrypt() {
+        const message = document.getElementById("message").value;
+        const shift = parseInt(document.getElementById("shift").value);
+        const resultDiv = document.getElementById("result");
+        const stepsDiv = document.getElementById("steps");
+        resultDiv.textContent = "Encrypted Message: ";
+        stepsDiv.textContent = "Steps: ";
+        console.log(typeof message);
+        if (typeof message === "string" && !/\d+/.test(message)) {
+          for (const char of message) {
+            const encryptedChar = caesarCipher(char, shift);
+            resultDiv.textContent += encryptedChar;
+            resultDiv.style.display = "block";
+
+            const step = `Shift ${char} -> ${encryptedChar} (+${shift})`;
+            stepsDiv.innerHTML += `<div class="step">${step}</div>`;
+
+            await sleep(500);
+          }
+          return;
+        } else {
+          console.log("This is not a string");
+          resultDiv.textContent = "Error: Input is not a string";
+          stepsDiv.textContent = "";
+        }
+      }
+
+      function caesarCipher(char, shift) {
+        const alphabet = "abcdefghijklmnopqrstuvwxyz";
+        const lowerCaseChar = char.toLowerCase();
+
+        if (!alphabet.includes(lowerCaseChar)) {
+          return char;
+        }
+
+        const index = (alphabet.indexOf(lowerCaseChar) + shift) % 26;
+        const encryptedChar = alphabet[index];
+
+        return char === lowerCaseChar
+          ? encryptedChar
+          : encryptedChar.toUpperCase();
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          encrypt();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Encrypt";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

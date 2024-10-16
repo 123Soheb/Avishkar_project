@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Queue Visualizer</title>
+    <!-- Your CSS styling here -->
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        align-items: center;
+      }
+
+      .heading {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #14d51e;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+
+      .container {
+        padding: 10px;
+        background-color: white;
+        box-shadow: 10px 10px 10px 10px;
+        position: relative;
+        border-radius: 20px;
+        border: 5px solid black;
+        width: 1000px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-left: 20%;
+        align-items: center;
+      }
+
+      .container-header {
+        height: 90px;
+        width: 100%;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+      }
+
+      .container-header input {
+        height: 50px;
+        min-width: 400px;
+        font-size: 25px;
+        border-radius: 10px;
+        padding-left: 20px;
+        padding-right: 5px;
+      }
+
+      .dequeue,
+      .enqueue,
+      .reset,
+      .box {
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: green;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      .disable-button {
+        background-color: rgb(0, 59, 0);
+      }
+
+      .container-header button:active {
+        transform: scale(0.95);
+      }
+      .container-body {
+        width: 1000px;
+        display: flex;
+        border: 2px solid black;
+        justify-content: space-evenly;
+        align-items: center;
+      }
+
+      .stack {
+        width: 500px;
+        height: 470px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-width: 0 3px 0 0;
+        border-color: black;
+        border-style: solid;
+      }
+
+      .main-stack-bucket {
+        height: 450px;
+        width: 200px;
+        border-width: 0 4px 4px 4px;
+        border-color: black;
+        border-style: solid;
+        border-radius: 0 0 10px 10px;
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        flex-direction: column-reverse;
+        gap: 5px;
+        padding-bottom: 5px;
+      }
+
+      .ele {
+        height: 80px;
+        width: 170px;
+        background-color: green;
+        color: white;
+        border: 4px black solid;
+        border-radius: 10px;
+        font-size: 25px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .ele-add {
+        animation: pushAnimation 0.3s infinite linear;
+      }
+      .ele-remove {
+        animation: popAnimation 0.3s infinite linear;
+      }
+      @keyframes pushAnimation {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      @keyframes popAnimation {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(255, 15, 59);
+        }
+      }
+
+      .info {
+        height: 470px;
+        width: 500px;
+        padding-left: 20px;
+      }
+
+      [class^="sec"] {
+        display: flex;
+        width: 350px;
+        align-items: center;
+        user-select: 7px;
+        margin-bottom: 5px;
+        justify-content: space-between;
+      }
+
+      .massage-box {
+        height: 180px;
+        width: 400px;
+        margin-top: 30px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: bisque;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .massage-box h2 {
+        text-align: center;
+        font-weight: 600;
+      }
+
+      .massage {
+        height: 160px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+      }
+      .error-massage {
+        animation: errorMassage 0.4s infinite linear;
+      }
+      @keyframes errorMassage {
+        0% {
+          background-color: bisque;
+        }
+        100% {
+          background-color: rgb(255, 15, 59);
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="heading">Queue Visualizer</h1>
+      <div class="container-header">
+        <input type="number" class="text" required />
+        <button class="enqueue">Enqueue</button>
+        <button class="dequeue">Dequeue</button>
+        <button class="reset">Reset</button>
+      </div>
+
+      <div class="container-body">
+        <div class="queue">
+          <div class="main-queue-bucket"></div>
+        </div>
+
+        <div class="info">
+          <div class="sec1">
+            <h3>Front of the Queue:-</h3>
+            <button class="box"></button>
+          </div>
+          <div class="sec2">
+            <h3>Rear of the Queue:-</h3>
+            <button class="box"></button>
+          </div>
+          <div class="sec3">
+            <h3>Size of the Queue:-</h3>
+            <button class="box">0</button>
+          </div>
+
+          <div class="massage-box">
+            <h2>Massage Box</h2>
+            <div class="massage"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Your JavaScript script here -->
+    <script>
+      /// JavaScript for Queue Visualizer
+
+      // Variable Declarations
+      const enqueue = document.querySelector(".enqueue");
+      const dequeue = document.querySelector(".dequeue");
+      const reset = document.querySelector(".reset");
+      const bucket = document.querySelector(".main-queue-bucket");
+      const input = document.querySelector(".text");
+      const massage = document.querySelector(".massage");
+      const massageBox = document.querySelector(".massage-box");
+      const box = document.querySelectorAll(".box");
+      const queue = [];
+
+      // Function to disable all buttons
+      const buttonDisable = () => {
+        enqueue.disabled = true;
+        enqueue.classList.add("disable-button");
+        dequeue.disabled = true;
+        dequeue.classList.add("disable-button");
+        reset.disabled = true;
+        reset.classList.add("disable-button");
+        input.disabled = true;
+      };
+
+      // Function to enable all buttons
+      const buttonEnable = () => {
+        enqueue.disabled = false;
+        enqueue.classList.remove("disable-button");
+        dequeue.disabled = false;
+        dequeue.classList.remove("disable-button");
+        reset.disabled = false;
+        reset.classList.remove("disable-button");
+        input.disabled = false;
+      };
+
+      // Enqueue Operation
+      enqueue.addEventListener("click", () => {
+        if (input.value == "") {
+          massage.innerHTML = "Please Enter a value.";
+          massageBox.classList.add("error-massage");
+          setTimeout(() => {
+            massageBox.classList.remove("error-massage");
+          }, 1200);
+          return;
+        }
+
+        if (queue.length == 5) {
+          input.value = "";
+          massage.innerHTML = "Queue is Full";
+          massageBox.classList.add("error-massage");
+          setTimeout(() => {
+            massageBox.classList.remove("error-massage");
+          }, 1200);
+          return;
+        }
+
+        const itemValue = input.value;
+        queue.push(itemValue);
+
+        const element = document.createElement("div");
+        element.classList.add("ele");
+        element.innerText = itemValue;
+        bucket.appendChild(element);
+
+        box[1].innerHTML = queue[queue.length - 1];
+        box[2].innerHTML = queue.length;
+
+        input.value = "";
+        buttonDisable();
+
+        element.classList.add("ele-add");
+
+        setTimeout(() => {
+          element.classList.remove("ele-add");
+          box[0].innerHTML = queue[0];
+          massage.innerHTML = `Item ${itemValue} is Enqueued.`;
+          buttonEnable();
+        }, 1500);
+      });
+
+      // Dequeue Operation
+      dequeue.addEventListener("click", () => {
+        if (queue.length == 0) {
+          massageBox.classList.add("error-massage");
+          massage.innerHTML = "Queue is Empty";
+          setTimeout(() => {
+            massageBox.classList.remove("error-massage");
+          }, 1200);
+          return;
+        }
+
+        bucket.firstElementChild.classList.add("ele-remove");
+        buttonDisable();
+
+        setTimeout(() => {
+          bucket.removeChild(bucket.firstElementChild);
+
+          const itemValue = queue.shift();
+          box[0].innerHTML = queue[0];
+          box[2].innerHTML = queue.length;
+
+          box[1].innerHTML = itemValue;
+          massage.innerHTML = `Item ${itemValue} is Dequeued.`;
+
+          buttonEnable();
+        }, 1500);
+      });
+
+      // Reset Operation
+      reset.addEventListener("click", () => {
+        while (queue.length > 0) {
+          queue.pop();
+        }
+
+        box[0].innerHTML = "";
+        box[1].innerHTML = "";
+        box[2].innerHTML = "0";
+        massage.innerHTML = "";
+
+        while (bucket.firstChild) {
+          bucket.removeChild(bucket.firstChild);
+        }
+      });
+    </script>
+  </body>
+</html>

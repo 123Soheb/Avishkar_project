@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Caesar Cipher Definition</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        min-width: auto;
+        max-width: 350px;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        display: block;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+
+      .visualization-container {
+        display: block;
+        align-items: flex-end;
+        justify-content: center;
+        margin-left: 200px;
+        width: fit-content;
+      }
+
+      .bucket {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid #333;
+        margin: 0 5px;
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+
+      .bucket-item {
+        background-color: #555;
+        color: #fff;
+        padding: 3px;
+        margin: 2px;
+        width: 50px;
+        text-align: center;
+      }
+      h2 {
+        position: relative;
+        left: 5em;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>Caesar Cipher Definition</h1>
+      <p>
+        The Caesar Cipher, also known as the Shift Cipher, is one of the
+        simplest and oldest methods of encryption. It's a substitution cipher
+        where each letter in the plaintext is shifted a certain number of places
+        down or up the alphabet. The method is named after Julius Caesar, who is
+        believed to have used this technique to encrypt his private messages.
+      </p>
+      <br /><br />
+      <center><a href="ceaser.html" class="a1">START VISUALIZER</a></center>
+      <br /><br />
+
+      <p>Here's how the Caesar Cipher works:</p>
+      <ol>
+        <li>
+          <strong>Key:</strong> The key in a Caesar Cipher is a number
+          representing the shift value. This value determines how much each
+          letter in the plaintext is shifted.
+        </li>
+        <li>
+          <strong>Encryption:</strong> To encrypt a message, you take each
+          letter in the plaintext and shift it forward in the alphabet by the
+          value of the key. For example, with a key of 3, 'A' becomes 'D', 'B'
+          becomes 'E', and so on. Wrapping is allowed, so 'Z' would become 'C'
+          with a key of 3.
+        </li>
+        <li>
+          <strong>Decryption:</strong> To decrypt a message encrypted with a
+          Caesar Cipher, you simply reverse the process. You shift each letter
+          in the ciphertext backward in the alphabet by the same key value.
+        </li>
+        <li>
+          <strong>Example:</strong> Let's illustrate the Caesar Cipher with an
+          example. Suppose we want to encrypt the message "HELLO" with a key of
+          3.
+        </li>
+      </ol>
+
+      <!-- Example Encryption -->
+      <h1>Example Encryption</h1>
+      <p>Message: HELLO</p>
+      <p>Key: 3</p>
+      <h2>Encrypted Message:</h2>
+
+      <div class="visualization-container">
+        <div class="bucket"><div class="bucket-item">H -> K</div></div>
+        <div class="bucket"><div class="bucket-item">E -> H</div></div>
+        <div class="bucket"><div class="bucket-item">L -> O</div></div>
+        <div class="bucket"><div class="bucket-item">L -> O</div></div>
+        <div class="bucket"><div class="bucket-item">O -> L</div></div>
+      </div>
+
+      <p>So, "HELLO" encrypted with a key of 3 becomes "KHOOR."</p>
+
+      <p>
+        Caesar Ciphers are relatively easy to understand and implement, but they
+        are not suitable for secure communication in today's digital world due
+        to their limited key space.
+      </p>
+      <pre>
+ <strong>Advantages:</strong>
+Easy to implement and use thus, making suitable for beginners to learn about encryption.
+Can be physically implemented, such as with a set of rotating disks or a set of cards, known as a scytale, which can be useful in certain situations.
+Requires only a small set of pre-shared information.
+Can be modified easily to create a more secure variant, such as by using a multiple shift values or keywords.
+<strong>Disadvantages:</strong>
+It is not secure against modern decryption methods.
+Vulnerable to known-plaintext attacks, where an attacker has access to both the encrypted and unencrypted versions of the same messages.
+The small number of possible keys means that an attacker can easily try all possible keys until the correct one is found, making it vulnerable to a brute force attack.
+It is not suitable for long text encryption as it would be easy to crack.
+It is not suitable for secure communication as it is easily broken.
+Does not provide confidentiality, integrity, and authenticity in a message
+</pre
+      >
+    </div>
+  </body>
+</html>

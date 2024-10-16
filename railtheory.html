@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rail Fence Cipher</title>
+    <style>
+      /* Your CSS styles here */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Rail Fence Cipher</h1>
+
+    <p>
+      The Rail Fence Cipher is a type of transposition cipher that rearranges
+      the order of letters in the plaintext to create ciphertext. Here's how it
+      works:
+    </p>
+    <br /><br />
+    <center><a href="railfence.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <ol>
+      <li>
+        <strong>Key:</strong> The key is the number of "rails" or rows used in
+        the encryption. For example, if the key is 3, there will be three rows
+        for encrypting the message.
+      </li>
+      <li>
+        <strong>Encryption:</strong> To encrypt a message, the plaintext is
+        written in a zigzag pattern along the specified number of rails. Then,
+        the letters are read off row by row to create the ciphertext.
+      </li>
+      <li>
+        <strong>Decryption:</strong> To decrypt the ciphertext, the recipient
+        needs to know the key (number of rails). The ciphertext is written in
+        the same zigzag pattern along the rails, and the plaintext is read off
+        row by row.
+      </li>
+    </ol>
+
+    <h2>Example</h2>
+
+    <p>
+      Let's encrypt the message "HELLO" using the Rail Fence Cipher with a key
+      of 3. First, we arrange the letters in a zigzag pattern along three rails:
+    </p>
+
+    <pre>
+        H . . O . . 
+        . E . L . .
+        . . L . . .
+    </pre>
+
+    <p>Now, we read the ciphertext row by row:</p>
+
+    <pre>
+        HOOELLL
+    </pre>
+
+    <p>
+      So, "HELLO" encrypted using the Rail Fence Cipher with a key of 3 becomes
+      "HOOELLL."
+    </p>
+
+    <p>
+      The security of this cipher depends on the key, and it's important to keep
+      the key secret. Increasing the number of rails (making the fence taller)
+      can enhance security.
+    </p>
+
+    <p>
+      <strong>Advantages:</strong>
+      - Provides a basic level of security. - Easy to understand and implement.
+    </p>
+
+    <p>
+      <strong>Disadvantages:</strong>
+      - Vulnerable to frequency analysis. - Security depends on the key (number
+      of rails) and its secrecy.
+    </p>
+  </body>
+</html>

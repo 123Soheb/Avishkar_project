@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rail Fence Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h2 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #0e0ef6;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-size: 25px;
+      }
+
+      #input {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+        resize: none;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      .mess:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      #railsInput {
+        width: fit-content;
+        padding: 10px;
+
+        border-radius: 10px;
+        background-color: bisque;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      #input {
+        margin-bottom: 20px;
+      }
+
+      #rails {
+        display: flex;
+      }
+
+      .rail {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid black;
+        margin: 0 5px;
+        padding: 10px;
+      }
+
+      #result {
+        margin-top: 20px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: rgb(17, 92, 255);
+        color: aliceblue;
+        border-radius: 10px;
+        padding: 10px;
+        border: 1px solid black;
+        display: none;
+      }
+
+      #result:hover {
+        box-shadow: 10px 10px 10px 10px;
+        text-align: center;
+        padding: 10px;
+        color: rgb(40, 37, 37);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: #eee715;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      #steps {
+        margin-top: 20px;
+      }
+      button {
+        margin-top: 10px;
+        height: 50px;
+        border: 3px solid #0c0c0b;
+        width: 140px;
+        font-size: 25px;
+        background-color: #0e0ef6;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      .rail {
+        margin-bottom: 20px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #0e0ef6;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Rail Fence Cipher Visualization</h2>
+      <label for="message">Message:</label><br />
+      <textarea
+        type="text"
+        id="input"
+        class="mess"
+        placeholder="Enter text"
+      ></textarea>
+      <br />
+      <label for="message">Depth:</label><br />
+      <input
+        type="number"
+        id="railsInput"
+        oninput="validateInput(this)"
+        class="mess"
+        placeholder="Enter number of rails"
+      /><br />
+      <!-- <button onclick="encrypt()">Encrypt</button> -->
+      <button id="startResetButton" onclick="startOrReset()">Encrypt</button>
+      <p id="rails"></p>
+      <p id="result"></p>
+      <h3>Steps:</h3>
+      <p id="steps"></p>
+    </div>
+
+    <script>
+      var isSorting = false;
+
+      function validateInput(inputField) {
+        const errorMessage = document.getElementById("result");
+        if (inputField.value < 0 || inputField.value > 10) {
+          errorMessage.textContent =
+            "Invalid input. Please enter a number between 0 and 25.";
+          errorMessage.style.display = "block";
+        } else {
+          errorMessage.textContent = "";
+          inputField.style.border = "";
+        }
+      }
+      function encrypt() {
+        const input = document.getElementById("input").value.toUpperCase();
+        const rails = parseInt(document.getElementById("railsInput").value);
+        const railArray = Array.from({ length: rails }, () => []);
+
+        if (!rails || !input) {
+          alert("Please enter both a keyword and a message.");
+          return;
+        }
+        let railIndex = 0;
+        let direction = 1;
+        const steps = [];
+
+        for (let char of input) {
+          railArray[railIndex].push(char);
+          railIndex += direction;
+
+          if (railIndex === 0 || railIndex === rails - 1) {
+            direction *= -1;
+          }
+
+          // Store step details
+          const stepDetails = `Added ${char} to Rail ${railIndex + 1}`;
+          steps.push(stepDetails);
+        }
+
+        const encryptedText = railArray.flat().join("");
+        const railElements = railArray.map((rail) => rail.join(" "));
+
+        document.getElementById("rails").innerHTML = railElements
+          .map((rail) => `<div class="rail">${rail}</div>`)
+          .join("");
+
+        let result1 = document.getElementById("result");
+        result1.textContent = `Encrypted Text: ${encryptedText}`;
+        result1.style.display = "block";
+
+        // Display step-by-step details
+        const stepsContainer = document.getElementById("steps");
+        stepsContainer.innerHTML = steps
+          .map((step, index) => `<div class="rail">${index + 1}. ${step}</div>`)
+          .join("");
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          encrypt();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Encrypt";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

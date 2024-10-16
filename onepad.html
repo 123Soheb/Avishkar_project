@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>One-Time Pad Encryption</title>
+    <style>
+      h1 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #e3248d;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        font-size: 25px;
+      }
+      button {
+        margin-top: 10px;
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #e3248d;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      .message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+        resize: none;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      .message:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      #encrypted,
+      #decrypted {
+        background-color: #e3248d;
+        width: fit-content;
+        font-size: 30px;
+        border: 5px solid black;
+        padding: 10px;
+        visibility: hidden;
+      }
+
+      #encrypted:hover,
+      #decrypted:hover {
+        margin-bottom: 50px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #d35c51;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: exampe;
+        animation-duration: 4s;
+      }
+      @keyframes exampe {
+        0% {
+          background-color: rgb(224, 115, 42);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      .animate {
+        margin-bottom: 50px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #d35c51;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: exampe;
+        animation-duration: 4s;
+      }
+      @keyframes exampe {
+        0% {
+          background-color: rgb(224, 115, 42);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>One-Time Pad Encryption</h1>
+      <label for="message">Message:</label><br />
+      <textarea
+        id="plaintext"
+        class="message"
+        placeholder="Enter plaintext"
+      ></textarea>
+      <br />
+      <label for="key">Key:</label><br />
+      <textarea id="key" class="message" placeholder="Enter key"></textarea>
+      <br />
+      <button onclick="encrypt()">Encrypt</button>
+
+      <br />
+      <h2>Encrypted Text:</h2>
+      <p id="encrypted"></p>
+      <button onclick="decrypt()">Decrypt</button>
+      <h2>Steps:</h2>
+      <p id="steps"></p>
+      <h2>Decrypted Text:</h2>
+      <p id="decrypted"></p>
+    </div>
+
+    <script>
+      function encrypt() {
+        const plaintext = document
+          .getElementById("plaintext")
+          .value.toUpperCase();
+        const key = document.getElementById("key").value.toUpperCase();
+        let encryptedText = "";
+        if (/\d+/.test(plaintext)) {
+          alert("Enter the plain text");
+          return;
+        }
+        if (/\d+/.test(key)) {
+          alert("Enter the plain text");
+          return;
+        }
+
+        if (plaintext.length !== key.length) {
+          alert("Plaintext and Key lengths must be the same!");
+          return;
+        }
+
+        document.getElementById("steps").textContent = "";
+
+        for (let i = 0; i < plaintext.length; i++) {
+          if (plaintext[i] === " ") {
+            encryptedText += " ";
+          } else {
+            const charCode =
+              ((plaintext.charCodeAt(i) + key.charCodeAt(i)) % 26) + 65;
+            encryptedText += String.fromCharCode(charCode);
+          }
+          const stepText = `<div class="animate">(${plaintext[i]} + ${
+            key[i]
+          }) % 26 = ${encryptedText.slice(-1)}<br></div`;
+          document.getElementById("steps").innerHTML += stepText;
+        }
+
+        let encrypted = document.getElementById("encrypted");
+        encrypted.textContent = encryptedText;
+        encrypted.style.visibility = "visible";
+      }
+
+      function decrypt() {
+        const encryptedText = document.getElementById("encrypted").textContent;
+        const key = document.getElementById("key").value.toUpperCase();
+        let decryptedText = "";
+
+        if (encryptedText.length !== key.length) {
+          alert("Encrypted Text and Key lengths must be the same!");
+          return;
+        }
+
+        document.getElementById("steps").textContent = "";
+
+        for (let i = 0; i < encryptedText.length; i++) {
+          if (encryptedText[i] === " ") {
+            decryptedText += " ";
+          } else {
+            const charCode =
+              ((encryptedText.charCodeAt(i) - key.charCodeAt(i) + 26) % 26) +
+              65;
+            decryptedText += String.fromCharCode(charCode);
+          }
+
+          const stepText = `<div class="animate">(${encryptedText[i]} - ${
+            key[i]
+          }) % 26 = ${decryptedText.slice(-1)}<br></div>`;
+          document.getElementById("steps").innerHTML += stepText;
+        }
+
+        let decrypted = document.getElementById("decrypted");
+        decrypted.textContent = decryptedText;
+        decrypted.style.visibility = "visible";
+      }
+    </script>
+  </body>
+</html>

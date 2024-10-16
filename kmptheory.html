@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Knuth-Morris-Pratt (KMP) Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Knuth-Morris-Pratt (KMP) Algorithm</h1>
+
+    <p>
+      In this article, we will explore the Knuth-Morris-Pratt (KMP) Algorithm, a
+      powerful string searching algorithm used to find occurrences of a pattern
+      within a text. The KMP Algorithm is known for its efficiency and ability
+      to handle large texts, making it a valuable tool in text processing,
+      string matching, and data retrieval applications.
+    </p>
+    <br /><br />
+    <center><a href="kmp.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>The KMP Algorithm is preferred in scenarios where:</span></p>
+    <li>Efficient substring searching in large texts is required.</li>
+    <li>Pattern matching with variable-length patterns is necessary.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        Efficient substring searching in large texts is required.
+        Pattern matching with variable-length patterns is necessary.
+        Algorithm
+        The Knuth-Morris-Pratt (KMP) Algorithm is an efficient string searching algorithm that utilizes a precomputed "failure" or "partial match" table to skip unnecessary comparisons. Here's a high-level summary of the algorithm:
+
+        1. **Create a Partial Match Table**: Before searching for the pattern in the text, create a Partial Match Table (also known as the LPS - Longest Prefix Suffix) that stores information about the longest proper prefix that is also a suffix for each substring of the pattern.
+
+        2. **Search for the Pattern in the Text**: Start searching for the pattern within the text using two pointers, one for the text and one for the pattern. Compare characters from the text and the pattern while considering the information from the Partial Match Table.
+
+        3. **Partial Match Table Usage**: When a mismatch occurs between a character in the pattern and the corresponding character in the text, use the Partial Match Table to determine how many characters in the pattern can be skipped in the next comparison. This skips unnecessary comparisons and improves the efficiency of the algorithm.
+
+        begin KMPSearch(text, pattern)  
+           // Create the Partial Match Table for the pattern
+           lps = ComputeLPSTable(pattern)
+
+           textLength = length of text
+           patternLength = length of pattern
+           textIndex = 0
+           patternIndex = 0
+
+           while textIndex < textLength
+               if pattern[patternIndex] = text[textIndex]
+                   increment both patternIndex and textIndex
+               end if
+
+               if patternIndex = patternLength
+                   // Pattern found, return its starting index in the text
+                   return textIndex - patternIndex
+               end if
+
+               else if textIndex < textLength and pattern[patternIndex] != text[textIndex]
+                   if patternIndex != 0
+                       // Use the Partial Match Table to skip characters in the pattern
+                       patternIndex = lps[patternIndex - 1]
+                   else
+                       increment textIndex
+                   end if
+               end else
+           end while
+
+           // Pattern not found in the text
+           return -1
+        end KMPSearch
+    </pre>
+    <h1>Working of KMP Algorithm</h1>
+    <pre>
+ 
+        The Knuth-Morris-Pratt (KMP) Algorithm efficiently searches for a pattern within a text using a precomputed Partial Match Table. Here's a detailed explanation of how it works:
+
+        1. **Create a Partial Match Table**: Before searching, create a Partial Match Table for the pattern. This table stores information about the longest proper prefix that is also a suffix for each substring of the pattern. It helps skip unnecessary comparisons during the search.
+
+        2. **Search for the Pattern in the Text**: Start searching for the pattern within the text using two pointers, one for the text and one for the pattern. Compare characters from the text and the pattern while considering the information from the Partial Match Table.
+
+        3. **Partial Match Table Usage**: When a mismatch occurs between a character in the pattern and the corresponding character in the text, use the Partial Match Table to determine how many characters in the pattern can be skipped in the next comparison. This efficient skipping of characters enhances the algorithm's speed.
+
+        The KMP Algorithm continues this process until it either finds the pattern in the text (returning its starting index in the text) or exhausts all possibilities without a match (returning -1 to indicate that the pattern is not present).
+
+        KMP's efficiency and ability to handle large texts make it a valuable tool for tasks like searching, data retrieval, and text processing.
+    </pre>
+  </body>
+</html>

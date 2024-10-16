@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Columnar Transposition Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        flex-direction: column;
+      }
+      h2 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #f01818;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        font-size: 25px;
+      }
+      button {
+        margin-top: 10px;
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #f01818;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      .message {
+        height: 180px;
+        width: 400px;
+        padding: 10px;
+        font-size: 30px;
+        font-weight: 900;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      .message:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      #input {
+        margin-bottom: 20px;
+      }
+
+      #result {
+        font-weight: bold;
+      }
+
+      #steps {
+        margin-top: 20px;
+        display: inline-block;
+        text-align: center;
+      }
+      #key {
+        width: fit-content;
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      #key:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      div {
+        margin-bottom: 20px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #f01818;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: rgb(209, 218, 29);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      .container {
+        text-align: center;
+        font-weight: 900;
+        font-size: 30px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Columnar Transposition Cipher Visualization</h2>
+    <center class="container">
+      <label for="message">Message:</label><br />
+      <textarea
+        type="text"
+        id="input"
+        class="message"
+        placeholder="Enter text"
+      ></textarea
+      ><br />
+      <label for="key">Key:</label><br />
+      <input type="text" id="key" placeholder="Enter key" />
+      <!-- <button onclick="encrypt()">Encrypt</button> -->
+      <button id="startResetButton" onclick="startOrReset()">Encrypt</button>
+      <center><p id="result"></p></center>
+      <h3>Steps:</h3>
+      <p id="steps"></p>
+    </center>
+    <script>
+      var isSorting = false;
+      function encrypt() {
+        const input = document.getElementById("input").value.toUpperCase();
+        const key = document.getElementById("key").value.toUpperCase();
+        const sortedKey = key.split("").sort().join("");
+        const columns = key.length;
+        const rows = Math.ceil(input.length / columns);
+
+        const matrix = Array.from({ length: rows }, () =>
+          Array(columns).fill("")
+        );
+        let index = 0;
+
+        const stepsDiv = document.getElementById("steps");
+        stepsDiv.innerHTML = "";
+
+        // Step 1: Create the matrix
+        for (let col = 0; col < columns; col++) {
+          const originalIndex = sortedKey.indexOf(key[col]);
+          console.log(originalIndex);
+
+          for (let row = 0; row < rows; row++) {
+            matrix[row][originalIndex] = input[index] || "";
+            index++;
+          }
+        }
+
+        // Display matrix
+        for (let row = 0; row < rows; row++) {
+          const rowText = matrix[row]
+            .map((element) => element.trim())
+            .join(" ");
+          stepsDiv.innerHTML += `<div>Row ${row + 1}: ${rowText}<br></div>`;
+        }
+
+        // Step 2: Read matrix column by column
+        let encryptedText = "";
+        for (let col = 0; col < columns; col++) {
+          for (let row = 0; row < rows; row++) {
+            encryptedText += matrix[row][col];
+          }
+        }
+
+        document.getElementById(
+          "result"
+        ).innerHTML = `<div> Encrypted Text: ${encryptedText}</div>`;
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          encrypt();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Encrypt";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        width: 100%;
+      }
+
+      .header {
+        margin-right: 20vw;
+        margin-left: 20vw;
+        padding: 10px;
+        text-align: center;
+        font-size: 30px;
+        background-color: rgba(56, 153, 172, 0.845);
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+
+      #array {
+        background-color: white;
+        /* width: 900px; */
+        height: 350px;
+        position: relative;
+        margin: 0 auto;
+        border: 4px solid rgba(56, 153, 172, 0.845);
+        margin-top: 64px;
+      }
+
+      .block {
+        width: 28px;
+        background-color: rgba(56, 153, 172, 0.845);
+        position: absolute;
+        bottom: 0px;
+        transition: 0.2s all ease;
+      }
+
+      .block_id {
+        position: absolute;
+        color: black;
+        margin-top: -20px;
+        width: 100%;
+        text-align: center;
+      }
+      button {
+        padding: 12px;
+        font-weight: bolder;
+        background-color: rgba(56, 153, 172, 0.845);
+        border-radius: 10px;
+        margin-right: 10px;
+        color: white;
+        font-size: 16px;
+        border: white;
+        padding: 10px 20px;
+      }
+      .butflex {
+        display: flex;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+      }
+      #text {
+        background-color: cyan;
+        color: black;
+        margin-top: 20px;
+        border-radius: 10px;
+        display: inline-block;
+      }
+      .container {
+        border: 2px solid black;
+        min-width: 60rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="header">Binary Search</h1>
+
+      <div id="array"></div>
+      <br /><br />
+
+      <div style="text-align: center">
+        <label for="fname"> Number to be Searched: </label>
+        <input type="text" id="fname" name="fname" />
+      </div>
+      <br /><br />
+      <div class="butflex">
+        <button id="startResetButton" onclick="startOrReset()">Search</button>
+        <button onclick="generate()">Generate Array</button>
+        <button onclick="setAnimationSpeed('slow')">Slow</button>
+        <button onclick="setAnimationSpeed('normal')">Normal</button>
+        <button onclick="setAnimationSpeed('fast')">Fast</button>
+      </div>
+      <center><div id="text"></div></center>
+    </div>
+
+    <script>
+      var container = document.getElementById("array");
+      var isSorting = false;
+      function generatearray() {
+        var arr = [];
+        for (var i = 0; i < 30; i++) {
+          var val = Number(Math.ceil(Math.random() * 100));
+          arr.push(val);
+        }
+
+        arr.sort(function (a, b) {
+          return a - b;
+        });
+
+        for (var i = 0; i < 30; i++) {
+          var value = arr[i];
+          // var valhieg= 60;
+
+          // Creating element div
+          var array_ele = document.createElement("div");
+
+          // Adding class 'block' to div
+          array_ele.classList.add("block");
+
+          // Adding style to div
+          array_ele.style.height = `${value * 3}px`;
+          // array_ele.style.height = `${valhieg }px`;
+          // array_ele.style.borderRadius = '50%';
+          // array_ele.style.transform = `translate(${i * 30}px)`;
+          array_ele.style.transform = `translate(${i * 30}px)`;
+
+          // Creating label element for displaying
+          // size of particular block
+          var array_ele_label = document.createElement("label");
+          array_ele_label.classList.add("block_id");
+          array_ele_label.innerText = value;
+
+          // Appending created elements to index.html
+          array_ele.appendChild(array_ele_label);
+          array_ele.style.border = `2px solid blue`;
+          container.style.border = `2px solid blue`;
+          container.style.width = `910px`;
+          container.appendChild(array_ele);
+        }
+      }
+
+      // Asynchronous BinarySearch function
+      async function BinarySearch() {
+        var blocks = document.querySelectorAll(".block");
+        var output = document.getElementById("text");
+
+        //Extracting the value of the element to be searched
+        var num = document.getElementById("fname").value;
+
+        //Colouring all the blocks violet
+        for (var i = 0; i < blocks.length; i += 1) {
+          blocks[i].style.backgroundColor = "yellow";
+        }
+
+        output.innerText = "";
+
+        // BinarySearch Algorithm
+
+        var start = 0;
+        var end = 29;
+        var flag = 0;
+        while (start <= end) {
+          //Middle index
+          var mid = Math.floor((start + end) / 2);
+          blocks[mid].style.backgroundColor = "#FF4949";
+
+          //Value at mid index
+          var value = Number(blocks[mid].childNodes[0].innerHTML);
+
+          // To wait for .1 sec
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, animationSpeed)
+          );
+
+          //Current element is equal to the element
+          //entered by the user
+          if (value == num) {
+            output.innerText = "Element Found";
+            output.style.padding = "10px";
+            blocks[mid].style.backgroundColor = "#13CE66";
+            flag = 1;
+            break;
+          }
+          //Current element is greater than the element
+          //entered by the user
+          if (value > num) {
+            end = mid - 1;
+            blocks[mid].style.backgroundColor = "blue";
+          } else {
+            start = mid + 1;
+            blocks[mid].style.backgroundColor = "blue";
+          }
+        }
+        if (flag === 0) {
+          output.innerText = "Element Not Found";
+          output.style.padding = "10px";
+        }
+      }
+      let animationSpeed = 300;
+
+      function setAnimationSpeed(speed) {
+        switch (speed) {
+          case "slow":
+            animationSpeed = 800;
+            break;
+          case "normal":
+            animationSpeed = 300;
+            break;
+          case "fast":
+            animationSpeed = 100;
+            break;
+          default:
+            animationSpeed = 300;
+        }
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          BinarySearch();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Start";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+
+      function generate() {
+        window.location.reload();
+      }
+      generatearray();
+    </script>
+  </body>
+</html>

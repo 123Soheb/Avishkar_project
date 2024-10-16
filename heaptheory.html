@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Heap Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        display: block;
+        max-width: 350px;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Heap Sort Algorithm</h1>
+
+    <p>
+      In this article, we will explore the Heap Sort Algorithm. Heap Sort is an
+      efficient in-place sorting algorithm known for its consistent performance.
+      Understanding Heap Sort is essential for anyone working with sorting
+      algorithms.
+    </p>
+    <br /><br />
+    <center><a href="heap.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Heap Sort is preferred in scenarios where:</span></p>
+    <li>
+      In-place sorting is required, i.e., sorting is done within the same array.
+    </li>
+    <li>A stable and efficient sorting algorithm is needed.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        In-place sorting is required, i.e., sorting is done within the same array.
+        A stable and efficient sorting algorithm is needed.
+        Algorithm
+        Heap Sort is based on a binary heap data structure. The algorithm can be summarized in the following steps:
+
+        1. **Build a Max Heap**: First, build a max heap from the unsorted array. This involves rearranging the array's elements to satisfy the heap property, where the parent is greater than or equal to its children.
+
+        2. **Extract Elements**: Repeatedly extract the maximum element (root) from the max heap and place it at the end of the array. This operation also reduces the heap size.
+
+        3. **Heapify**: After extracting an element, ensure that the remaining elements in the heap maintain the heap property. This is done through a process called "heapify."
+
+        4. **Repeat**: Steps 2 and 3 are repeated until the entire array is sorted.
+
+        begin HeapSort(arr)  
+           buildMaxHeap(arr)  // Build a max heap
+           heapSize = length of arr
+           for i from heapSize-1 down to 0
+               swap(arr[0], arr[i])  // Move the maximum element to the end
+               heapify(arr, i, 0)  // Heapify the remaining heap
+           end for     
+           return arr     
+        end HeapSort
+
+        begin buildMaxHeap(arr)  
+           heapSize = length of arr
+           for i from heapSize/2 - 1 down to 0
+               heapify(arr, heapSize, i)
+           end for
+        end buildMaxHeap
+
+        begin heapify(arr, heapSize, root)  
+           largest = root
+           left = 2 * root + 1
+           right = 2 * root + 2
+
+           if left < heapSize and arr[left] > arr[largest]
+               largest = left
+           if right < heapSize and arr[right] > arr[largest]
+               largest = right
+
+           if largest != root
+               swap(arr[root], arr[largest])
+               heapify(arr, heapSize, largest)
+           end if
+        end heapify
+    </pre>
+    <h1>Working of Heap Sort Algorithm</h1>
+    <pre>
+ 
+        Heap Sort works by transforming the unsorted array into a binary max heap—a data structure where each parent node is greater than or equal to its children. Here's a detailed explanation of how it works:
+
+        1. **Build Max Heap**: The first step involves building a max heap from the unsorted array. This is done by rearranging the elements to satisfy the max heap property, where the parent node is greater than or equal to its children. Building the max heap ensures that the largest element (the root) is at the top.
+
+        2. **Extraction and Heapify**: The largest element (the root of the max heap) is extracted and placed at the end of the array. This operation reduces the heap size. The remaining elements are then heapified to maintain the max heap property. This process continues, with the maximum element being moved to the end of the array in each iteration.
+
+        3. **Repeat**: Steps 2 and 3 are repeated until the entire array is sorted. The sorted elements accumulate at the end of the array during each iteration.
+
+        4. **Final Result**: Once all iterations are complete, the array is fully sorted in ascending order.
+
+        Heap Sort's in-place nature makes it memory-efficient, and its consistent performance with a time complexity of O(n log n) in the worst, average, and best cases makes it a reliable choice for sorting large datasets.
+    </pre>
+  </body>
+</html>

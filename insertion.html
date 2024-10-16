@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	
+<style>
+
+body {
+background-color: rgb(255, 235, 211);
+font-family: Verdana, sans-serif;
+}
+
+.head {
+	margin-top: 20px;
+	margin-right: 20vw;
+	margin-left: 20vw;
+	padding: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+	font-size: 30px;
+	background-color: #1bc7c7;
+	color: white;
+	border-radius: 19px;
+	font-weight: bolder;
+}
+
+.data-container {
+width: 900px;
+height: 364px;
+position: relative;
+margin: 0 auto;
+border:5px solid #161515;
+}
+
+.bar {
+width: 28px;
+position: absolute;
+left: 0;
+bottom: 0;
+background-color: rgb(0, 183, 255);
+transition: 0.2s all ease;
+}
+
+.bar__id {
+position: absolute;
+top: -24px;
+width: 100%;
+text-align: center;
+}
+.btn1
+{
+padding: 12px;
+font-weight: bolder;
+background-color: #1bc7c7;
+border-radius: 10px;
+color: white;
+font-size: 16px;
+border: rgba(26, 26, 26, 0.505);
+
+}
+.btn2
+{
+padding: 12px;
+font-weight: bolder;
+background-color: #1bc7c7;
+border-radius: 10px;
+color: white;
+font-size: 16px;
+border: rgba(22, 21, 21, 0.668)
+}
+button{
+padding: 12px;
+font-weight: bolder;
+background-color: #1bc7c7;
+border-radius: 10px;
+color: white;
+font-size: 16px;
+border: rgba(26, 26, 26, 0.505);
+
+
+
+}
+
+
+#ele{
+text-align: center;
+height: 35px;
+}
+
+p{
+	border:3px solid #1bc7c7;
+	width: 70%;
+	padding: 10px;
+}
+
+</style>
+<body>
+	<h1 class="head">Insertion Sort</h1>
+	<div class="data-container"></div>
+	<div id="ele"></div>
+	<div style="margin: auto; width: fit-content;">
+<button class="btn1"
+		onclick="generate()" id="Button1" >
+	Generate New Array</button>
+	<button id="startResetButton" class="btn2" onclick="startOrReset()">Insertion Sort</button>
+    <button onclick="setAnimationSpeed('slow')">Slow</button>
+    <button onclick="setAnimationSpeed('normal')">Normal</button>
+    <button onclick="setAnimationSpeed('fast')">Fast</button>
+
+    
+</div>	
+<p><b>Insertion sort works similar to the sorting of playing cards in hands.<br>
+    It is assumed that the first card is already sorted in the card game, and then we select an unsorted card.<br>
+    If the selected unsorted card is greater than the first card, it will be placed at the right side; otherwise, it will be placed at the left side.<br>
+   Similarly, all unsorted cards are taken and put in their exact place.</b></p>
+</body>
+<script >
+	var isSorting = false;
+  const container = document.querySelector(".data-container");
+   function generatebars(num = 30) {
+     for (let i = 0; i < num; i += 1) {
+			const value = Math.floor(Math.random() * 100) + 1;
+			const bar = document.createElement("div");
+			bar.classList.add("bar");
+			bar.style.height = `${value * 3}px`;
+			bar.style.transform = `translateX(${i * 30}px)`;
+			const barLabel = document.createElement("label");
+			barLabel.classList.add("bar__id");
+			barLabel.innerHTML = value;
+			bar.appendChild(barLabel);
+			container.appendChild(bar);
+}
+}
+async function InsertionSort() {
+let bars = document.querySelectorAll(".bar");
+bars[0].style.backgroundColor = " rgb(49, 226, 13)";
+for (var i = 1; i < bars.length; i += 1) {
+	var j = i - 1;
+	var key =parseInt(bars[i].childNodes[0].innerHTML);
+	var height = bars[i].style.height;
+	var barval=document.getElementById("ele")
+	barval.innerHTML=`<h3>Element Selected is :${key}</h3>`;
+	bars[i].style.backgroundColor = "darkblue";
+	await new Promise((resolve) =>
+	setTimeout(() => {
+	resolve();
+	}, animationSpeed )
+);
+
+	while (j >= 0 && parseInt(bars[j].childNodes[0].innerHTML) > key) {
+	bars[j].style.backgroundColor = "darkblue";
+	bars[j + 1].style.height = bars[j].style.height;
+	bars[j + 1].childNodes[0].innerText =bars[j].childNodes[0].innerText;
+	j = j - 1;
+	await new Promise((resolve) =>
+		setTimeout(() => {
+		resolve();
+		}, animationSpeed )
+	);
+	for(var k=i;k>=0;k--){
+		bars[k].style.backgroundColor = " rgb(49, 226, 13)";
+	}
+	}
+	bars[j + 1].style.height = height;
+	bars[j + 1].childNodes[0].innerHTML = key;
+	await new Promise((resolve) =>
+	setTimeout(() => {
+		resolve();
+	}, animationSpeed ));
+	bars[i].style.backgroundColor = " rgb(49, 226, 13)";
+}
+
+barval.innerHTML="<h3>Sorted!!!</h3>";
+}
+
+let animationSpeed = 300; 
+
+function setAnimationSpeed(speed) {
+  switch (speed) {
+    case 'slow':
+      animationSpeed = 800;
+      break;
+    case 'normal':
+      animationSpeed = 300;
+      break;
+    case 'fast':
+      animationSpeed = 100;
+      break;
+    default:
+      animationSpeed = 300;
+  }
+}
+
+function startOrReset() {
+      const button = document.getElementById("startResetButton");
+
+      if (!isSorting) {
+        // Start functionality
+        isSorting = true;
+        button.textContent = "Reset";
+        InsertionSort();
+      } else {
+        // Reset functionality
+        isSorting = false;
+        button.textContent = "Insertion Sort";
+        resetVisualization();
+      }
+    }
+
+function resetVisualization(){
+	window.location.reload();
+}
+
+
+
+
+generatebars();
+
+function generate()
+{
+window.location.reload();
+}
+
+</script>
+</html>

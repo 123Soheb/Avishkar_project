@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linear Search Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Linear Search Algorithm</h1>
+
+    <p>
+      In this article, we will explore the Linear Search Algorithm, a simple and
+      straightforward searching technique used to find a specific element in a
+      list or array. Linear search is a basic yet essential algorithm,
+      especially when you need to locate an item in an unsorted collection.
+    </p>
+    <br /><br />
+    <center><a href="linear.html" class="a1">START SEARCH</a></center>
+    <br /><br />
+
+    <p><span>Linear Search is preferred in scenarios where:</span></p>
+    <li>Efficiency and speed are not the primary concerns.</li>
+    <li>The list or array is small or unsorted.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        Efficiency and speed are not the primary concerns.
+        The list or array is small or unsorted.
+        Algorithm
+        Linear Search, also known as Sequential Search, is a simple searching algorithm that scans each element in a list or array one by one until it finds the target element or reaches the end of the collection. Here's a high-level summary of the algorithm:
+
+        begin LinearSearch(arr, target)  
+           for each element in arr
+               if element equals target
+                   return the index of the element
+               end if
+           end for
+           return -1  // Element not found
+        end LinearSearch
+    </pre>
+    <h1>Working of Linear Search Algorithm</h1>
+    <pre>
+ 
+        Linear Search is a straightforward algorithm that works as follows:
+
+        1. **Iterate Through Elements**: Start from the beginning of the list or array and examine each element one by one, in order.
+
+        2. **Comparison**: Compare the current element with the target element that you are searching for.
+
+        3. **Element Found**: If the current element matches the target, return the index of that element.
+
+        4. **Element Not Found**: If you reach the end of the list or array without finding the target, return -1 to indicate that the element is not present.
+
+        Linear Search is easy to understand and implement, making it a suitable choice for small collections or situations where sorting the data is not feasible or necessary.
+    </pre>
+  </body>
+</html>

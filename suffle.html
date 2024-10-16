@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secure Text Encryption</title>
+    <style>
+      h1 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #e3248d;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        margin-left: 500px;
+        font-size: 25px;
+      }
+      button {
+        margin-top: 10px;
+        margin-left: 500px;
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #e3248d;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      .message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 500px;
+      }
+      .message:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      h2 {
+        margin-left: 500px;
+      }
+      #encrypted,
+      #decrypted {
+        margin-left: 500px;
+        background-color: #e3248d;
+        width: fit-content;
+        font-size: 30px;
+      }
+
+      #encrypted:hover,
+      #decrypted:hover {
+        margin-bottom: 50px;
+        margin-left: 500px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #d35c51;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: exampe;
+        animation-duration: 4s;
+      }
+      @keyframes exampe {
+        0% {
+          background-color: rgb(224, 115, 42);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      p {
+        margin-bottom: 50px;
+        margin-left: 500px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #d35c51;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: exampe;
+        animation-duration: 4s;
+      }
+      @keyframes exampe {
+        0% {
+          background-color: rgb(224, 115, 42);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <label for="input-text">Enter text:</label>
+      <textarea
+        id="input-text"
+        class="message"
+        placeholder="Enter plain text"
+      ></textarea>
+    </div>
+    <div>
+      <button id="encrypt-button">Encrypt</button>
+    </div>
+    <div>
+      <!-- <label for="ciphered-text">Encrypted Text:</label> -->
+      <div id="ciphered-text"></div>
+    </div>
+    <div>
+      <!-- <label for="decrypted-text">Decrypted Text:</label> -->
+      <div id="decrypted-text"></div>
+    </div>
+    <div id="key"></div>
+    <div>
+      <label for="encryption-steps">Step-by-Step Encryption:</label>
+      <div id="encryption-steps"></div>
+    </div>
+    <div>
+      <label for="decryption-steps">Step-by-Step Decryption:</label>
+      <div id="decryption-steps"></div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", async function () {
+        const inputTextElement = document.getElementById("input-text");
+        const encryptButton = document.getElementById("encrypt-button");
+        const cipheredTextElement = document.getElementById("ciphered-text");
+        const decryptedTextElement = document.getElementById("decrypted-text");
+
+        const encryptionStepsContainer =
+          document.getElementById("encryption-steps");
+        const decryptionStepsContainer =
+          document.getElementById("decryption-steps");
+
+        encryptButton.addEventListener("click", async function () {
+          const inputText = inputTextElement.value;
+          const key = await generateEncryptionKey();
+
+          // Clear previous results and steps
+          cipheredTextElement.textContent = "";
+          decryptedTextElement.textContent = "";
+          encryptionStepsContainer.textContent = "";
+          decryptionStepsContainer.textContent = "";
+
+          const cipheredText = await encryptText(inputText, key);
+          cipheredTextElement.innerHTML = `<p>Encrypted Text: ${cipheredText}</p>`;
+
+          // Visualize encryption steps
+          visualizeEncryption(
+            inputText,
+            cipheredText,
+            encryptionStepsContainer
+          );
+
+          // Decrypt the text
+          const decryptedText = await decryptText(cipheredText, key);
+          decryptedTextElement.innerHTML = `<p>Decrypted Text: ${decryptedText}</p>`;
+
+          // Visualize decryption steps
+          visualizeDecryption(
+            cipheredText,
+            decryptedText,
+            decryptionStepsContainer
+          );
+        });
+
+        async function generateEncryptionKey() {
+          return await crypto.subtle.generateKey(
+            {
+              name: "AES-GCM",
+              length: 256,
+            },
+            true,
+            ["encrypt", "decrypt"]
+          );
+        }
+
+        async function encryptText(text, key) {
+          const textEncoder = new TextEncoder();
+
+          const data = textEncoder.encode(text);
+
+          const iv = crypto.getRandomValues(new Uint8Array(12));
+          const cipherText = await crypto.subtle.encrypt(
+            {
+              name: "AES-GCM",
+              iv: iv,
+            },
+            key,
+            data
+          );
+
+          // Combine IV and ciphertext
+          const encryptedData = new Uint8Array(
+            iv.length + cipherText.byteLength
+          );
+          document.getElementById("key").innerHTML = `<p>Key: ${key}</p>`;
+          encryptedData.set(iv);
+          encryptedData.set(new Uint8Array(cipherText), iv.length);
+
+          return btoa(String.fromCharCode(...encryptedData));
+        }
+        function visualizeEncryption(plainText, cipheredText, stepsContainer) {
+          stepsContainer.innerHTML = "<p>Encryption Steps:</p>";
+
+          for (let i = 0; i < plainText.length; i++) {
+            const plainChar = plainText[i];
+            const cipheredChar = cipheredText[i];
+            const stepText = `<p>${plainChar} -> ${cipheredChar}</p>`;
+            stepsContainer.innerHTML += stepText;
+          }
+        }
+
+        function visualizeDecryption(
+          cipheredText,
+          decryptedText,
+          stepsContainer
+        ) {
+          stepsContainer.innerHTML = "<p>Decryption Steps:</p>";
+
+          for (let i = 0; i < cipheredText.length; i++) {
+            const cipheredChar = cipheredText[i];
+            const decryptedChar = decryptedText[i];
+            const stepText = `<p>${cipheredChar} -> ${decryptedChar}</p>`;
+            stepsContainer.innerHTML += stepText;
+          }
+        }
+
+        async function decryptText(cipheredText, key) {
+          const encryptedData = Uint8Array.from(atob(cipheredText), (c) =>
+            c.charCodeAt(0)
+          );
+          const iv = encryptedData.slice(0, 12);
+          const cipherText = encryptedData.slice(12);
+
+          const decryptedData = await crypto.subtle.decrypt(
+            {
+              name: "AES-GCM",
+              iv: iv,
+            },
+            key,
+            cipherText
+          );
+
+          const textDecoder = new TextDecoder();
+          return textDecoder.decode(decryptedData);
+        }
+      });
+    </script>
+  </body>
+</html>

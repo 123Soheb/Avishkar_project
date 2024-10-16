@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hill Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h2 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #35eb08;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        font-size: 25px;
+      }
+      #message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+        resize: none;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      .mess:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      input {
+        width: 300px;
+        padding: 5px;
+        margin: 5px;
+      }
+      button {
+        margin-top: 10px;
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #35eb08;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+
+      #result {
+        margin-top: 20px;
+        border: 5px solid black;
+        font-size: 25px;
+        padding: 20px;
+        display: none;
+        width: fit-content;
+        background-color: #35eb08;
+        color: white;
+        transition: 0.5s;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      #result:hover {
+        box-shadow: 10px 10px 10px 10px;
+        font-size: 25px;
+        background-color: #e4eb08;
+        padding: 20px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+
+      .matrix-container {
+        display: flex;
+        /* justify-content: center; */
+        margin-top: 20px;
+      }
+      .matrix {
+        margin: 0 10px;
+        border: 3px solid black;
+        background-color: blanchedalmond;
+      }
+      .matrix:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      .matrix-row {
+        display: flex;
+      }
+      .matrix-input {
+        width: 40px;
+        text-align: center;
+        background-color: #35eb08;
+      }
+      .used {
+        background-color: lightgreen;
+      }
+      .highlight {
+        background-color: yellow;
+      }
+
+      p {
+        font-size: 25px;
+        background-color: #35eb08;
+        padding: 20px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Hill Cipher Visualization</h2>
+    <div class="container">
+      <label for="keyMatrix">Key Matrix (3x3):</label>
+      <div class="matrix-container">
+        <div class="matrix">
+          <div class="matrix-row">
+            <input
+              class="matrix-input"
+              type="number"
+              id="key00"
+              placeholder="0"
+            />
+            <input
+              class="matrix-input"
+              type="number"
+              id="key01"
+              placeholder="0"
+            />
+            <input
+              class="matrix-input"
+              type="number"
+              id="key02"
+              placeholder="0"
+            />
+          </div>
+          <div class="matrix-row">
+            <input
+              class="matrix-input"
+              type="number"
+              id="key10"
+              placeholder="0"
+            />
+            <input
+              class="matrix-input"
+              type="number"
+              id="key11"
+              placeholder="0"
+            />
+            <input
+              class="matrix-input"
+              type="number"
+              id="key12"
+              placeholder="0"
+            />
+          </div>
+          <div class="matrix-row">
+            <input
+              class="matrix-input"
+              type="number"
+              id="key20"
+              placeholder="0"
+            />
+            <input
+              class="matrix-input"
+              type="number"
+              id="key21"
+              placeholder="0"
+            />
+            <input
+              class="matrix-input"
+              type="number"
+              id="key22"
+              placeholder="0"
+            />
+          </div>
+        </div>
+      </div>
+      <br />
+      <label for="message">Message:</label>
+      <textarea
+        type="text"
+        id="message"
+        class="mess"
+        placeholder="Enter your message"
+      ></textarea>
+      <br />
+      <!-- <button onclick="encrypt()">Encrypt</button> -->
+      <button id="startResetButton" onclick="startOrReset()">Encrypt</button>
+      <div id="result"></div>
+      <div id="mapping"></div>
+      <div id="process" class="pro"></div>
+    </div>
+
+    <script>
+      var isSorting = false;
+
+      function matrixMultiply(matrix, vector) {
+        const result = [];
+        for (let i = 0; i < matrix.length; i++) {
+          let sum = 0;
+          for (let j = 0; j < vector.length; j++) {
+            sum += matrix[i][j] * vector[j];
+          }
+          result.push(sum % 26); // Mod 26 to stay within the alphabet range
+        }
+        return result;
+      }
+
+      function encrypt() {
+        const keyMatrix = [];
+        for (let i = 0; i < 3; i++) {
+          const row = [];
+          for (let j = 0; j < 3; j++) {
+            const inputId = `key${i}${j}`;
+            const inputValue = parseInt(
+              document.getElementById(inputId).value,
+              10
+            );
+            row.push(inputValue);
+          }
+          keyMatrix.push(row);
+        }
+
+        const message = document.getElementById("message").value.toLowerCase();
+        if (typeof message === "string" && !/\d+/.test(message)) {
+          if (!keyMatrix.some((row) => row.includes(NaN)) && message) {
+            const numericalMessage = message
+              .split("")
+              .map((letter) => letter.charCodeAt(0) - 97);
+
+            visualizeHillCipher(keyMatrix, numericalMessage);
+          }
+        } else {
+          alert("Please enter a valid key matrix and message.");
+        }
+      }
+
+      function visualizeHillCipher(keyMatrix, numericalMessage) {
+        const resultDiv = document.getElementById("result");
+        const mappingDiv = document.getElementById("mapping");
+        const processDiv = document.getElementById("process");
+
+        resultDiv.textContent = "";
+        mappingDiv.textContent = "";
+        processDiv.innerHTML =
+          '<h3 style="font-size:25">Encryption Process:</h3>';
+
+        let encryptedNumericalMessage = [];
+        for (let i = 0; i < numericalMessage.length; i += 3) {
+          const block = numericalMessage.slice(i, i + 3);
+          const encryptedBlock = matrixMultiply(keyMatrix, block);
+
+          encryptedNumericalMessage =
+            encryptedNumericalMessage.concat(encryptedBlock);
+
+          const processText =
+            `Block: [${block.join(", ")}] ` +
+            `Key Matrix: [${keyMatrix[0]}, ${keyMatrix[1]}, ${keyMatrix[2]}] ` +
+            `Encrypted Block: [${encryptedBlock.join(", ")}]`;
+
+          const processElement = document.createElement("p");
+          processElement.textContent = processText;
+          processDiv.appendChild(processElement);
+        }
+
+        const encryptedMessage = encryptedNumericalMessage
+          .map((code) => String.fromCharCode(code + 97))
+          .join("");
+        resultDiv.textContent = `Encrypted Message: ${encryptedMessage}`;
+        resultDiv.style.display = "block";
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          encrypt();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Encrypt";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

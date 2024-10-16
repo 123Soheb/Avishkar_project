@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Pythagorean Theorem Triangle Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+        input {
+            width: 100px;
+            padding: 5px;
+            margin: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        #canvas-container {
+            display: inline-block;
+            margin-top: 30px;
+            border: 5px solid #ccc;
+            width: 100%;
+            height: 500px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Pythagorean Theorem Triangle Animation</h2>
+    <label for="sideA">Side A:</label>
+    <input type="number" id="sideA" placeholder="Enter side A">
+    <br>
+    <label for="sideB">Side B:</label>
+    <input type="number" id="sideB" placeholder="Enter side B">
+    <br>
+    <!-- <button onclick="startAnimation()">Draw Triangle</button> -->
+    <button id="startResetButton" onclick="startOrReset()">Draw Triangle</button>
+    <div id="canvas-container">
+        <canvas id="triangleCanvas" width="900" height="500"></canvas>
+    </div>
+
+    <script>
+        var isSorting = false;
+        function startAnimation() {
+            var sideA = parseFloat(document.getElementById("sideA").value);
+            var sideB = parseFloat(document.getElementById("sideB").value);
+
+            if (isNaN(sideA) || isNaN(sideB)) {
+                alert("Please enter valid side lengths.");
+                return;
+            }
+
+            var canvas = document.getElementById("triangleCanvas");
+            var ctx = canvas.getContext("2d");
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the triangle vertices (points A, B, C)
+            var A = { x: 50, y: 350 };
+            var B = { x: 50 + sideA * 20, y: 350 };
+            var C = { x: 50, y: 350 - sideB * 20 };
+
+            // Draw the first side (Side A)
+            var currentStep = 0;
+            var totalStepsA = 50; // Total number of animation steps for Side A
+
+            function drawSideA() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                ctx.beginPath();
+                ctx.arc(A.x, A.y, 3, 0, 2 * Math.PI);
+                ctx.fillStyle = "green";
+                ctx.fill();
+
+                var stepLengthA = sideA * 20 * currentStep / totalStepsA;
+                ctx.beginPath();
+                ctx.moveTo(A.x, A.y);
+                ctx.lineTo(A.x + stepLengthA, A.y);
+                ctx.stroke();
+
+                ctx.beginPath();
+                ctx.arc(B.x, B.y, 3, 0, 2 * Math.PI);
+                ctx.arc(C.x, C.y, 3, 0, 2 * Math.PI);
+                ctx.fill();
+
+                ctx.fillStyle = "black";
+                ctx.font = "14px Arial";
+                ctx.fillText("Side A = " + stepLengthA.toFixed(2), 10, 20);
+
+                if (currentStep < totalStepsA) {
+                    currentStep++;
+                    requestAnimationFrame(drawSideA);
+                } else {
+                    // Draw the second side (Side B)
+                    currentStep = 0;
+                    var totalStepsB = 50; // Total number of animation steps for Side B
+
+                    function drawSideB() {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                        ctx.beginPath();
+                        ctx.arc(A.x, A.y, 3, 0, 2 * Math.PI);
+                        ctx.arc(B.x, B.y, 3, 0, 2 * Math.PI);
+                        ctx.fillStyle = "green";
+                        ctx.fill();
+
+                        ctx.beginPath();
+                        ctx.moveTo(A.x, A.y);
+                        ctx.lineTo(B.x, B.y);
+                        ctx.lineTo(C.x, C.y);
+                        ctx.stroke();
+
+                        var stepLengthB = sideB * 20 * currentStep / totalStepsB;
+                        ctx.beginPath();
+                        ctx.moveTo(A.x, A.y);
+                        ctx.lineTo(C.x, C.y - stepLengthB);
+                        ctx.stroke();
+
+                        ctx.fillStyle = "black";
+                        ctx.font = "14px Arial";
+                        ctx.fillText("Side A = " + sideA, 10, 20);
+                        ctx.fillText("Side B = " + stepLengthB.toFixed(2), 10, 40);
+
+                        if (currentStep < totalStepsB) {
+                            currentStep++;
+                            requestAnimationFrame(drawSideB);
+                        } else {
+                            // Draw the hypotenuse (Side C)
+                            ctx.beginPath();
+                            ctx.moveTo(A.x, A.y);
+                            ctx.lineTo(C.x, C.y - sideB * 20);
+                            ctx.strokeStyle = "blue";
+                            ctx.stroke();
+
+                            var hypotenuseLength = Math.sqrt(sideA ** 2 + sideB ** 2);
+                            ctx.fillStyle = "black";
+                            ctx.font = "14px Arial";
+                            ctx.fillText("Side A = " + sideA, 10, 20);
+                            ctx.fillText("Side B = " + sideB, 10, 40);
+                            ctx.fillText("Hypotenuse (Side C) = " + hypotenuseLength.toFixed(2), 10, 60);
+                        }
+                    }
+
+                    requestAnimationFrame(drawSideB);
+                }
+            }
+
+            requestAnimationFrame(drawSideA);
+        }
+
+        function startOrReset() {
+      const button = document.getElementById("startResetButton");
+
+      if (!isSorting) {
+        // Start functionality
+        isSorting = true;
+        button.textContent = "Reset";
+        startAnimation();
+      } else {
+        // Reset functionality
+        isSorting = false;
+        button.textContent = "Draw Triangle";
+        resetVisualization();
+      }
+    }
+
+function resetVisualization(){
+	window.location.reload();
+}
+    </script>
+</body>
+</html>

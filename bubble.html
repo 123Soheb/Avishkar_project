@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bubble Sort Visualization</title>
+    <style>
+      * {
+        margin: 0%;
+        padding: 0%;
+      }
+      .head {
+        margin-right: 20vw;
+        margin-left: 20vw;
+        padding: 10px;
+        text-align: center;
+        font-size: 30px;
+        background-color: #0e0ef6;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      #canvas {
+        background-color: white;
+        height: 350px;
+        position: relative;
+        border: 4px solid rgba(56, 153, 172, 0.845);
+        width: 910px;
+        margin-top: 20px;
+      }
+      .block {
+        width: 28px;
+        background-color: rgba(56, 153, 172, 0.845);
+        position: absolute;
+        bottom: 0;
+        transition: 0.2s all ease;
+      }
+      .block_id {
+        position: absolute;
+        color: black;
+        margin-top: -20px;
+        width: 100%;
+        text-align: center;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+
+        cursor: pointer;
+        transition: background-color 0.2s;
+        background-color: #0e0ef6;
+        color: white;
+        border-radius: 5px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      p {
+        text-align: center;
+        font-family: "Lucida Sans", Geneva, Verdana, sans-serif;
+        border: 3px solid #0e0ef6;
+        width: 70%;
+        margin: 10px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="head">BUBBLE SORT VISUALIZER</h1>
+    <div id="canvas"></div>
+    <div id="sortingStatus"></div>
+    <button id="Button1" onclick="generateArray()">
+      Generate Random Array
+    </button>
+    <button id="startResetButton" onclick="startOrReset()">Start</button>
+    <button onclick="setAnimationSpeed('slow')">Slow</button>
+    <button onclick="setAnimationSpeed('normal')">Normal</button>
+    <button onclick="setAnimationSpeed('fast')">Fast</button>
+    <p>
+      <b>
+        Bubble sort works by repeatedly swapping adjacent elements until they
+        are in the correct order.<br />
+        It is called bubble sort because the movement of array elements
+        resembles bubbles rising to the surface of water.<br />
+        Bubbles in water rise to the surface; similarly, array elements in
+        bubble sort move to the end in each iteration.
+      </b>
+    </p>
+
+    <script>
+      const canvas = document.getElementById("canvas");
+      let arr = [];
+      let bars = [];
+      let animationSpeed = 300;
+      let isSorting = false;
+
+      function generateArray() {
+        // Clear previous bars
+        canvas.innerHTML = "";
+        arr = [];
+        bars = [];
+        for (let i = 0; i < 30; i++) {
+          let value = Math.ceil(Math.random() * 100);
+          arr.push(value);
+          let arrayEle = document.createElement("div");
+          arrayEle.classList.add("block");
+          arrayEle.style.height = `${value * 3}px`;
+          arrayEle.style.transform = `translate(${i * 30}px)`;
+          let arrayEleLabel = document.createElement("label");
+          arrayEleLabel.classList.add("block_id");
+          arrayEleLabel.innerText = value;
+          arrayEle.appendChild(arrayEleLabel);
+          arrayEle.style.border = `2px solid blue`;
+          canvas.appendChild(arrayEle);
+          bars.push(arrayEle);
+        }
+      }
+
+      function setAnimationSpeed(speed) {
+        switch (speed) {
+          case "slow":
+            animationSpeed = 800;
+            break;
+          case "normal":
+            animationSpeed = 300;
+            break;
+          case "fast":
+            animationSpeed = 50;
+            break;
+          default:
+            animationSpeed = 300;
+        }
+      }
+
+      async function bubbleSort() {
+        let bars = document.querySelectorAll(".block");
+        const n = bars.length; // Number of bars
+
+        async function swap(i, j) {
+          // Highlight the bars to be swapped
+          bars[i].style.backgroundColor = "red";
+          bars[j].style.backgroundColor = "red";
+
+          // Swap the heights and labels
+          let tempHeight = bars[i].style.height;
+          let tempLabel = bars[i].childNodes[0].innerText;
+
+          await new Promise((resolve) => setTimeout(resolve, animationSpeed)); // Wait for animation
+
+          bars[i].style.height = bars[j].style.height;
+          bars[i].childNodes[0].innerText = bars[j].childNodes[0].innerText;
+          bars[j].style.height = tempHeight;
+          bars[j].childNodes[0].innerText = tempLabel;
+
+          // Reset colors
+          bars[i].style.backgroundColor = "rgba(56, 153, 172, 0.845)";
+          bars[j].style.backgroundColor = "rgba(56, 153, 172, 0.845)";
+        }
+
+        for (let i = 0; i < n - 1; i++) {
+          for (let j = 0; j < n - i - 1; j++) {
+            let value1 = parseInt(bars[j].childNodes[0].innerText);
+            let value2 = parseInt(bars[j + 1].childNodes[0].innerText);
+
+            if (value1 > value2) {
+              await swap(j, j + 1);
+            }
+          }
+        }
+
+        await new Promise((resolve) =>
+          setTimeout(() => {
+            resolve();
+          }, animationSpeed)
+        );
+        for (let x = 0; x < 30; x++) {
+          bars[x].style.backgroundColor = "rgb(49, 226, 13)";
+        }
+        document.getElementById("sortingStatus").textContent =
+          "Sorting completed!";
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          isSorting = true;
+          button.textContent = "Reset";
+          bubbleSort();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Start";
+          generateArray(); // Regenerate the array
+        }
+      }
+
+      generateArray();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gnome Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        display: block;
+        max-width: 350px;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Gnome Sort Algorithm</h1>
+
+    <p>
+      In this article, we will discuss the Gnome Sort Algorithm. Gnome Sort is a
+      simple sorting algorithm that is known for its simplicity and ease of
+      understanding. While it may not be the most efficient sorting method for
+      large datasets, it provides insights into basic sorting techniques and is
+      sometimes used in educational contexts.
+    </p>
+    <br /><br />
+    <center><a href="gnome.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Gnome Sort is preferred in scenarios where:</span></p>
+    <li>Simplicity and ease of implementation are priorities.</li>
+    <li>Efficiency is less critical, and the dataset is relatively small.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        Simplicity and ease of implementation are priorities.
+        Efficiency is less critical, and the dataset is relatively small.
+        Algorithm
+        Gnome Sort is a simple sorting algorithm that works by repeatedly comparing and swapping adjacent elements that are out of order. The algorithm gets its name from the way it moves elements through the array in a manner similar to how a gnome sorts a row of flower pots. Here's a high-level summary of the algorithm:
+
+        1. **Initialize Index**: Start with an index (usually set to 0) indicating the current position in the array.
+
+        2. **Compare and Swap**: Compare the element at the current index with the previous element. If they are in the correct order or if the index reaches the beginning of the array, increment the index.
+
+        3. **Move Backwards**: If the elements are out of order, swap them and decrement the index.
+
+        4. **Repeat**: Continue this process until the index reaches the end of the array. The array is considered sorted when the index surpasses the last element.
+
+        begin GnomeSort(arr)  
+           index = 0
+           n = length of arr
+           while index < n
+               if index = 0 or arr[index] >= arr[index - 1]
+                   increment index
+               else
+                   swap arr[index] and arr[index - 1]
+                   decrement index
+               end if
+           end while
+           return arr     
+        end GnomeSort
+    </pre>
+    <h1>Working of Gnome Sort Algorithm</h1>
+    <pre>
+ 
+        Gnome Sort is a simple and intuitive sorting algorithm. Here's a detailed explanation of how it works:
+
+        1. **Initialize Index**: The algorithm begins by setting an index to 0, indicating the current position in the array.
+
+        2. **Compare and Swap**: It compares the element at the current index with the previous element. If these two elements are in the correct order (or if the index reaches the beginning of the array), the index is incremented, effectively moving forward through the array.
+
+        3. **Move Backwards**: If the elements at the current and previous positions are out of order, they are swapped, and the index is decremented. This step effectively moves the current element back in the array to its correct position.
+
+        4. **Repeat**: Steps 2 and 3 are repeated until the index reaches the end of the array. The array is considered sorted when the index surpasses the last element.
+
+        Gnome Sort's simplicity and ease of implementation make it a valuable learning tool for understanding sorting algorithms. However, its time complexity is generally not as efficient as more advanced sorting methods, making it less suitable for large datasets.
+    </pre>
+  </body>
+</html>

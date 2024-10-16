@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bucket Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        display: block;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Bucket Sort Algorithm</h1>
+
+    <p>
+      In this article, we will explore the Bucket Sort Algorithm. Bucket Sort is
+      an efficient sorting algorithm that works by distributing the elements
+      into a number of buckets, each of which is then sorted individually,
+      either using a different sorting algorithm or recursively applying Bucket
+      Sort. Understanding Bucket Sort is valuable for solving problems where
+      data falls into distinct ranges or intervals.
+    </p>
+    <br /><br />
+    <center><a href="bucket.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Bucket Sort is preferred in scenarios where:</span></p>
+    <li>The data to be sorted is uniformly distributed over a range.</li>
+    <li>Stability is important in sorting.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        The data to be sorted is uniformly distributed over a range.
+        Stability is important in sorting.
+        Algorithm
+        Bucket Sort divides the input into a fixed number of buckets, then sorts each bucket individually, either using a different sorting algorithm or recursively applying Bucket Sort. Here's a high-level summary of the algorithm:
+
+        1. **Create Buckets**: Create an array of empty buckets, with each bucket representing a specific range or interval.
+
+        2. **Distribute Elements**: Distribute each element from the input array into the appropriate bucket based on its value. This step can be performed by determining the bucket index using a hashing function or simple arithmetic.
+
+        3. **Sort Buckets**: Sort each bucket individually, either using another sorting algorithm (e.g., Insertion Sort, Quick Sort) or by recursively applying Bucket Sort.
+
+        4. **Concatenate Buckets**: After sorting all the buckets, concatenate them to obtain the sorted array.
+
+        begin BucketSort(arr, maxVal)  
+           n = length of arr
+           bucketSize = maxVal / n  // Determine the size of each bucket
+           buckets = array of n empty buckets
+
+           // Distribute elements into buckets
+           for i from 0 to n-1
+               index = arr[i] / bucketSize  // Calculate the bucket index
+               buckets[index].append(arr[i])
+
+           // Sort each bucket (using Insertion Sort for simplicity)
+           for i from 0 to n-1
+               InsertionSort(buckets[i])
+
+           // Concatenate the sorted buckets to obtain the final sorted array
+           result = []
+           for i from 0 to n-1
+               result.append(buckets[i])
+           return result     
+        end BucketSort
+
+        // Helper function for sorting a bucket using Insertion Sort
+        begin InsertionSort(bucket)  
+           for i from 1 to length(bucket)-1
+               key = bucket[i]
+               j = i - 1
+               while j >= 0 and bucket[j] > key
+                   bucket[j + 1] = bucket[j]
+                   j = j - 1
+               end while
+               bucket[j + 1] = key
+           end for
+        end InsertionSort
+    </pre>
+    <h1>Working of Bucket Sort Algorithm</h1>
+    <pre>
+ 
+        Bucket Sort is designed for scenarios where the data falls within specific ranges or intervals, such as grades, temperatures, or other continuous data. Here's a detailed explanation of how Bucket Sort works:
+
+        1. **Bucket Creation**: The algorithm begins by creating an array of empty buckets. The number of buckets is determined based on the maximum value in the input array.
+
+        2. **Distribute Elements**: Each element from the input array is placed into its respective bucket. This is done by calculating the bucket index using a hashing function or simple arithmetic based on the value of the element.
+
+        3. **Sort Buckets**: Each bucket is sorted individually. This can be done using a variety of sorting algorithms, with Insertion Sort being a common choice due to its efficiency for small lists.
+
+        4. **Concatenate Buckets**: Once all the buckets are sorted, they are concatenated to obtain the final sorted array. The order of concatenation is based on the order of the bucket indices.
+
+        Bucket Sort's performance depends on the distribution of data. When data is uniformly distributed, it can perform exceptionally well. However, its performance may degrade if data is not well-distributed or if there are many empty buckets.
+
+        Bucket Sort is a stable sorting algorithm, meaning it preserves the relative order of equal elements. It is a valuable tool for sorting continuous data within specified ranges efficiently.
+    </pre>
+  </body>
+</html>

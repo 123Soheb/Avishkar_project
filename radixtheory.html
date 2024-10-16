@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Radix Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+
+      /* Styling for the visualization */
+      .visualization-container {
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .bucket {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 2px solid #333;
+        margin: 0 5px;
+        padding: 10px;
+        background-color: #f9f9f9;
+      }
+
+      .bucket-header {
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .bucket-item {
+        background-color: #555;
+        color: #fff;
+        padding: 3px;
+        margin: 2px;
+        width: 30px;
+        text-align: center;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Radix Sort Algorithm</h1>
+
+    <p>
+      Radix Sort is a non-comparative sorting algorithm that works on integers
+      by processing individual digits. It processes the digits from the least
+      significant digit (LSD) to the most significant digit (MSD) or vice versa.
+      This process of sorting digits is repeated multiple times until the entire
+      array is sorted.
+    </p>
+    <br /><br />
+    <center><a href="radix.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+    <h1>Algorithm</h1>
+    <pre>
+        Algorithm
+        Radix Sort is a non-comparative sorting algorithm that works on integers. It sorts the integers by processing their digits from the least significant digit (LSD) to the most significant digit (MSD) or vice versa. Here's the high-level algorithm:
+
+        1. Find the maximum element in the array to determine the maximum number of digits.
+
+        2. Initialize ten buckets (0-9) for each digit place (1s, 10s, 100s, etc.).
+
+        3. Starting from the least significant digit (1s place), place each integer into the corresponding bucket based on that digit's value.
+
+        4. After processing all integers for a digit place, collect the integers from the buckets in the order they were placed.
+
+        5. Repeat the process for the next digit place (e.g., 10s, 100s) until the entire array is sorted.
+
+        6. The array is now sorted.
+
+        end RadixSort
+    </pre>
+
+    <h1>Radix Sort Visualization</h1>
+    <p>
+      Let's visualize how the Radix Sort Algorithm works with a simple example:
+    </p>
+
+    <div class="visualization-container">
+      <div class="bucket">
+        <div class="bucket-header">Bucket 0</div>
+        <div class="bucket-item">120</div>
+        <div class="bucket-item">30</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-header">Bucket 1</div>
+        <div class="bucket-item">61</div>
+        <div class="bucket-item">31</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-header">Bucket 2</div>
+        <div class="bucket-item">62</div>
+        <div class="bucket-item">42</div>
+      </div>
+    </div>
+
+    <p>
+      In this visualization, we have a list of integers that we want to sort
+      using Radix Sort. The algorithm processes the digits in a specific order
+      (either LSD to MSD or MSD to LSD) and places each integer into a "bucket"
+      based on the value of the current digit. After processing all digits, the
+      integers are collected from the buckets and rearranged. This process is
+      repeated until the entire array is sorted.
+    </p>
+
+    <h1>Working of Radix Sort</h1>
+    <pre>
+        Working of Radix Sort
+        Radix Sort works by sorting integers based on their individual digits. Here's a detailed explanation of how it works:
+
+        1. Determine the maximum number of digits in the integers to be sorted. This helps in setting the number of passes required.
+
+        2. Initialize ten buckets (0-9) for each digit place, starting from the least significant digit.
+
+        3. For each pass, iterate through the integers and place them into the corresponding bucket based on the value of the current digit place.
+
+        4. After placing all integers into buckets for the current digit place, collect the integers from the buckets in the order they were placed. This ensures that the relative order of integers with the same digit values is maintained.
+
+        5. Repeat the process for the next digit place, progressing from LSD to MSD or vice versa.
+
+        6. After processing all digit places, the integers are sorted, and the array is now in ascending or descending order, depending on the order of digit processing.
+
+        Radix Sort is highly efficient for sorting integers with a fixed number of digits or a relatively small range of values. It is particularly useful when the integers have the same number of digits.
+    </pre>
+  </body>
+</html>

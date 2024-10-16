@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Radix Sort Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .header {
+        padding: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #5cb85c;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      .array-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+      }
+
+      .array-element {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        background-color: #5cb85c;
+        color: white;
+        font-weight: bold;
+        margin: 5px;
+      }
+
+      .comparing {
+        background-color: #f0ad4e; /* Highlight when comparing */
+      }
+
+      .moving {
+        background-color: #d9534f; /* Highlight when moving to new position */
+      }
+
+      .sorted {
+        background-color: #5bc0de; /* Highlight when element is in its final sorted position */
+      }
+
+      .array-display {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        background-color: #5cb85c;
+        color: white;
+        border-radius: 5px;
+      }
+      .l1 {
+        list-style-type: square;
+        color: #f0ad4e;
+      }
+      .l2 {
+        list-style-type: square;
+        color: #d9534f;
+      }
+      .l3 {
+        list-style-type: square;
+        color: #5bc0de;
+      }
+      .container {
+        border: 5px solid black;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h1 class="header">Radix Sort Visualization</h1>
+      <button onclick="generate()">Generate Random Array</button>
+      <!-- <button onclick="startRadixSort()">Start Sort</button> -->
+      <button id="startResetButton" onclick="startOrReset()">Start Sort</button>
+      <button onclick="setSpeed('slow')">Slow</button>
+      <button onclick="setSpeed('normal')">Normal</button>
+      <button onclick="setSpeed('fast')">Fast</button>
+      <div class="array-display" id="array-display"></div>
+      <li class="l1">COMPAIRING</li>
+      <li class="l2">MOVING</li>
+      <li class="l3">SORTED</li>
+      <div class="array-container" id="array-container"></div>
+    </div>
+
+    <script>
+      let speed = 500; // Default speed (500 milliseconds delay)
+      var isSorting = false;
+
+      // Utility functions to generate a random array and get the maximum value in the array
+      function generateRandomArray(size, max) {
+        const arr = Array.from(
+          { length: size },
+          () => Math.floor(Math.random() * max) + 1
+        );
+        showArray(arr);
+        return arr;
+      }
+
+      function getMax(arr) {
+        return Math.max(...arr);
+      }
+
+      // Function to display the unsorted array
+      function showArray(arr) {
+        const arrayDisplay = document.getElementById("array-display");
+        arrayDisplay.innerText = `Unsorted Array: [${arr.join(", ")}]`;
+      }
+
+      // Function to update the visualization of the array elements with colors
+      async function updateArray(arr, colors) {
+        const arrayContainer = document.getElementById("array-container");
+        arrayContainer.innerHTML = "";
+
+        for (let i = 0; i < arr.length; i++) {
+          const element = document.createElement("div");
+          element.className = `array-element ${colors[i]}`;
+          element.textContent = arr[i];
+          arrayContainer.appendChild(element);
+          await new Promise((resolve) => setTimeout(resolve, speed));
+        }
+      }
+
+      // Function to perform the step-by-step radix sort with color highlighting
+      async function radixSortStepByStep(arr) {
+        const max = getMax(arr);
+        const delays = [];
+
+        for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+          let count = new Array(10).fill(0);
+          let output = new Array(arr.length);
+          let colors = new Array(arr.length).fill("");
+
+          // Highlight elements in the current digit's place
+          for (let i = 0; i < arr.length; i++) {
+            colors[i] = "comparing";
+          }
+          await updateArray(arr, colors);
+
+          // Counting sort
+          for (let i = 0; i < arr.length; i++) {
+            let digit = Math.floor(arr[i] / exp) % 10;
+            count[digit]++;
+          }
+
+          for (let i = 1; i < 10; i++) {
+            count[i] += count[i - 1];
+          }
+
+          for (let i = arr.length - 1; i >= 0; i--) {
+            let digit = Math.floor(arr[i] / exp) % 10;
+            output[count[digit] - 1] = arr[i];
+            count[digit]--;
+          }
+
+          // Move elements to their new positions
+          for (let i = 0; i < arr.length; i++) {
+            colors[i] = "moving";
+            arr[i] = output[i];
+          }
+          await updateArray(arr, colors);
+
+          // Add the current step to delays for visualization
+          delays.push([...arr]);
+        }
+
+        // Highlight elements in their final sorted positions
+        let colors = new Array(arr.length).fill("sorted");
+        await updateArray(arr, colors);
+
+        return delays; // Return delays for debugging or future use
+      }
+
+      // Function to start the Radix Sort visualization
+      async function startRadixSort() {
+        const arr = generateRandomArray(10, 99); // Change array size and maximum value here
+        const delays = await radixSortStepByStep(arr);
+        console.log(delays); // For debugging or future use
+      }
+
+      // Function to set the speed of the sorting visualization
+      function setSpeed(speedOption) {
+        switch (speedOption) {
+          case "slow":
+            speed = 1000; // 1 second delay
+            break;
+          case "normal":
+            speed = 500; // 0.5 second delay
+            break;
+          case "fast":
+            speed = 200; // 0.2 second delay
+            break;
+          default:
+            speed = 500;
+            break;
+        }
+      }
+
+      function generate() {
+        window.location.reload();
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          startRadixSort();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Start Sort";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+
+      // Initial random array generation
+      generateRandomArray(10, 99);
+    </script>
+  </body>
+</html>

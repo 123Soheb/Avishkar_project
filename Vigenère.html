@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vigenère Cipher Visualization</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      h2 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #eee715;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        font-size: 25px;
+      }
+      #message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+        resize: none;
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+      }
+      .mess:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      input {
+        width: 300px;
+        padding: 5px;
+        margin: 5px;
+      }
+      button {
+        margin-top: 10px;
+        height: 50px;
+        border: 3px solid #0c0c0b;
+        width: 140px;
+        font-size: 25px;
+        background-color: #eee715;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+      }
+      #result {
+        margin-top: 20px;
+        font-size: 25px;
+        background-color: #eee715;
+        border-radius: 10px;
+        border: 2px solid black;
+        width: fit-content;
+        padding: 10px;
+        display: none;
+      }
+
+      #result:hover {
+        box-shadow: 10px 10px 10px 10px;
+        text-align: center;
+        padding: 10px;
+        color: rgb(14, 14, 14);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: #eee715;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      .divstyle {
+        margin-bottom: 50px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #eee715;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: example;
+        animation-duration: 4s;
+      }
+      @keyframes example {
+        0% {
+          background-color: green;
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 5px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Vigenère Cipher Visualization</h2>
+
+      <label for="message">Message:</label>
+      <textarea
+        type="text"
+        class="mess"
+        id="message"
+        placeholder="Enter message"
+      ></textarea>
+      <br />
+      <label for="keyword">Keyword:</label>
+      <input type="text" id="keyword" placeholder="Enter keyword" />
+      <br />
+      <!-- <button onclick="encrypt()">Encrypt</button> -->
+      <button id="startResetButton" onclick="startOrReset()">Encrypt</button>
+      <p id="result" class="res"></p>
+      <p id="process"></p>
+    </div>
+
+    <script>
+      var isSorting = false;
+      const alphabet = "abcdefghijklmnopqrstuvwxyz";
+
+      function encrypt() {
+        const keyword = document.getElementById("keyword").value.toLowerCase();
+        const message = document.getElementById("message").value.toLowerCase();
+
+        if (!keyword || !message) {
+          alert("Please enter both a keyword and a message.");
+          return;
+        }
+        if (/\d+/.test(message)) {
+          alert("Enter the plain text");
+          return;
+        }
+        if (/\d+/.test(keyword)) {
+          alert("Enter the plain text");
+          return;
+        }
+
+        if (keyword && message) {
+          const encryptedMessage = vigenereEncrypt(message, keyword);
+          displayEncryptedMessage(encryptedMessage);
+          visualizeVigenereEncryption(message, keyword, encryptedMessage);
+        } else {
+          alert("Please enter both a keyword and a message.");
+        }
+      }
+
+      function vigenereEncrypt(message, keyword) {
+        let encryptedMessage = "";
+        let keywordIndex = 0;
+
+        for (let i = 0; i < message.length; i++) {
+          const char = message[i];
+          const keywordChar = keyword[keywordIndex % keyword.length];
+          const keywordShift = alphabet.indexOf(keywordChar);
+
+          if (alphabet.includes(char)) {
+            const charIndex = alphabet.indexOf(char);
+            const encryptedIndex = (charIndex + keywordShift) % 26;
+            encryptedMessage += alphabet[encryptedIndex];
+            keywordIndex++;
+          } else {
+            encryptedMessage += char;
+          }
+        }
+
+        return encryptedMessage;
+      }
+
+      function displayEncryptedMessage(encryptedMessage) {
+        const resultDiv = document.getElementById("result");
+        resultDiv.textContent = `Encrypted Message: ${encryptedMessage}`;
+        resultDiv.style.display = "block";
+      }
+
+      function visualizeVigenereEncryption(message, keyword, encryptedMessage) {
+        const processDiv = document.getElementById("process");
+        processDiv.innerHTML = "<h3>Encryption Process:</h3>";
+
+        for (let i = 0; i < message.length; i++) {
+          const char = message[i];
+          const keywordChar = keyword[i % keyword.length];
+          const keywordShift = alphabet.indexOf(keywordChar);
+
+          const charElement = document.createElement("span");
+          charElement.textContent = char;
+          charElement.classList.add("original");
+
+          const keywordElement = document.createElement("span");
+          keywordElement.textContent = keywordChar;
+          keywordElement.classList.add("keyword");
+
+          const encryptedChar = encryptedMessage[i];
+          const encryptedCharElement = document.createElement("span");
+          encryptedCharElement.textContent = encryptedChar;
+          encryptedCharElement.classList.add("encrypted");
+
+          const processElement = document.createElement("div");
+          processElement.appendChild(charElement);
+          processElement.appendChild(document.createTextNode(" + "));
+          processElement.appendChild(keywordElement);
+          processElement.appendChild(document.createTextNode(" -> "));
+          processElement.appendChild(encryptedCharElement);
+          processElement.classList.add("divstyle");
+
+          processDiv.appendChild(processElement);
+        }
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          encrypt();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Encrypt";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

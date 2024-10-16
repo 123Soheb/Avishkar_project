@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playfair Cipher Definition</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+
+      /* Styling for the Playfair Square table */
+      table {
+        border-collapse: collapse;
+        margin: 20px auto;
+      }
+
+      table,
+      th,
+      td {
+        border: 1px solid #333;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #f9f9f9;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Playfair Cipher Definition</h1>
+
+    <p>
+      The Playfair Cipher is a cryptographic technique used for secure
+      communication. It was developed by Charles Wheatstone in 1854 but was
+      popularized by Lord Playfair during the Boer War. This cipher is a form of
+      a substitution cipher that encrypts pairs of letters (digraphs) instead of
+      individual letters. It offers improved security compared to simple
+      substitution ciphers.
+    </p>
+    <br /><br />
+    <center><a href="Playfair.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p>Here's how the Playfair Cipher works:</p>
+    <ol>
+      <li>
+        <strong>Key:</strong> The key for the Playfair Cipher is a 5x5 grid
+        known as the "Playfair Square" or "Playfair Key Table." It contains the
+        26 letters of the alphabet (excluding 'J') arranged in a grid. The key
+        defines the digraph substitutions.
+      </li>
+      <li>
+        <strong>Encryption:</strong> To encrypt a message, the plaintext is
+        divided into pairs of letters. These pairs are then located on the
+        Playfair Square. The following rules are applied:
+        <ul>
+          <li>
+            If both letters are in the same row of the grid, each letter is
+            replaced by the letter to its right (wrapping around to the left
+            side if needed).
+          </li>
+          <li>
+            If both letters are in the same column of the grid, each letter is
+            replaced by the letter below it (wrapping around to the top if
+            needed).
+          </li>
+          <li>
+            If the letters are not in the same row or column, they form a
+            rectangle on the grid. The replacement letters are found at the
+            corners of this rectangle by maintaining the same row or column.
+          </li>
+          <li>
+            If a pair has a repeated letter (e.g., "meet"), an 'X' is inserted
+            between them before encryption (e.g., "meet" becomes "mext").
+          </li>
+        </ul>
+      </li>
+      <li>
+        <strong>Decryption:</strong> To decrypt a message encrypted with the
+        Playfair Cipher, the process is reversed. The ciphertext pairs are
+        located on the Playfair Square, and the original plaintext pairs are
+        determined based on the grid's rules.
+      </li>
+    </ol>
+    <h2>Playfair Square</h2>
+    <table>
+      <tr>
+        <th></th>
+        <th>A</th>
+        <th>B</th>
+        <th>C</th>
+        <th>D</th>
+        <th>E</th>
+      </tr>
+      <tr>
+        <th>A</th>
+        <td>K</td>
+        <td>E</td>
+        <td>Y</td>
+        <td>L</td>
+        <td>G</td>
+      </tr>
+      <tr>
+        <th>B</th>
+        <td>M</td>
+        <td>Q</td>
+        <td>U</td>
+        <td>F</td>
+        <td>Z</td>
+      </tr>
+      <tr>
+        <th>C</th>
+        <td>R</td>
+        <td>H</td>
+        <td>N</td>
+        <td>V</td>
+        <td>A</td>
+      </tr>
+      <tr>
+        <th>D</th>
+        <td>W</td>
+        <td>O</td>
+        <td>B</td>
+        <td>T</td>
+        <td>C</td>
+      </tr>
+      <tr>
+        <th>E</th>
+        <td>D</td>
+        <td>I</td>
+        <td>X</td>
+        <td>P</td>
+        <td>S</td>
+      </tr>
+    </table>
+
+    <!-- Example Encryption -->
+    <h1>Example Encryption</h1>
+    <p>Message: MEET</p>
+    <p>Playfair Square Key:</p>
+    <pre>
+        K E Y L G
+        M Q U F Z
+        R H N V A
+        W O B T C
+        D I X P S
+    </pre>
+    <h2>Encrypted Message:</h2>
+    <div class="visualization-container">
+      <div class="bucket">
+        <div class="bucket-item">M -> Q</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-item">E -> D</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-item">E -> I</div>
+      </div>
+      <div class="bucket">
+        <div class="bucket-item">T -> X</div>
+      </div>
+    </div>
+    <p>So, "MEET" encrypted using the Playfair Cipher becomes "QDIX."</p>
+
+    <p>
+      The Playfair Cipher provides a more robust encryption method compared to
+      simple substitution ciphers and can be used for secure communication.
+    </p>
+
+    <p>
+      The Playfair Cipher provides a higher level of security compared to simple
+      substitution ciphers and can be used for moderately secure communication.
+      However, it has been largely replaced by more advanced encryption
+      techniques in modern cryptography.
+    </p>
+
+    <p>
+      <strong>Advantages:</strong>
+      - Encrypts pairs of letters, making frequency analysis more challenging. -
+      Suitable for educational purposes and historical contexts.
+    </p>
+
+    <p>
+      <strong>Disadvantages:</strong>
+      - Vulnerable to known-plaintext attacks. - Limited key space compared to
+      modern encryption methods.
+    </p>
+  </body>
+</html>

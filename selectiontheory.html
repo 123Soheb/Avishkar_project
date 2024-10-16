@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Selection Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Selection Sort Algorithm</h1>
+
+    <p>
+      Selection Sort is a simple and straightforward sorting algorithm that
+      repeatedly selects the minimum (or maximum) element from an unsorted part
+      of the array and places it in its correct position. It's not the most
+      efficient sorting algorithm, but it's easy to understand and implement.
+    </p>
+    <br /><br />
+    <center><a href="selected.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Selection Sort is preferred in scenarios where:</span></p>
+    <li>Efficiency and speed in sorting are not the primary concerns.</li>
+    <li>
+      A simple sorting algorithm with a minimal number of swaps is desired.
+    </li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        Efficiency and speed in sorting are not the primary concerns.
+        A simple sorting algorithm with a minimal number of swaps is desired.
+        Algorithm
+        Selection Sort is based on a simple concept: find the minimum (or maximum) element in the unsorted part of the array and place it at the beginning (or end) of the sorted part. Here's how it works:
+
+        1. **Initial State**: The algorithm starts with an unsorted array and an initially empty sorted array.
+
+        2. **Find the Minimum**: In each pass, the algorithm searches for the minimum (or maximum) element in the unsorted part of the array.
+
+        3. **Swap with First**: Once the minimum (or maximum) element is found, it's swapped with the first element in the unsorted part, effectively expanding the sorted part of the array.
+
+        4. **Repeat**: Steps 2 and 3 are repeated until the entire array is sorted.
+
+        Here's a simplified representation of the algorithm in pseudocode:
+
+        begin SelectionSort(arr)  
+           for i from 0 to len(arr) - 1
+               minIndex = i
+               for j from i + 1 to len(arr)
+                   if arr[j] < arr[minIndex]
+                       minIndex = j
+                   end if
+               end for
+               swap arr[i] and arr[minIndex]
+           end for
+        end SelectionSort
+    </pre>
+    <h1>Working of Selection Sort</h1>
+    <pre>
+ 
+        Selection Sort is a straightforward sorting algorithm that works as follows:
+
+        1. **Initial State**: The algorithm starts with the entire array considered as unsorted, and a separate sorted portion (initially empty).
+
+        2. **Find the Minimum**: In each pass of the outer loop, the algorithm searches for the minimum element in the unsorted portion of the array. This is done by comparing each element with the current minimum.
+
+        3. **Swap with First**: Once the minimum element is found, it is swapped with the first element in the unsorted portion. This effectively expands the sorted portion of the array, as the minimum element is now in its correct sorted position.
+
+        4. **Repeat**: Steps 2 and 3 are repeated until the entire array is sorted. In each pass of the outer loop, one element is added to the sorted portion, and the remaining unsorted portion becomes smaller.
+
+        Selection Sort is not the most efficient sorting algorithm, especially for large datasets, as it has a time complexity of O(n^2). However, it's easy to understand and implement, and it's useful for educational purposes.
+    </pre>
+  </body>
+</html>

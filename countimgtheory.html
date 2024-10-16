@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Counting Sort Algorithm</title>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Counting Sort Algorithm</h1>
+
+    <p>
+      In this article, we will explore the Counting Sort Algorithm. Counting
+      Sort is an efficient, non-comparative sorting algorithm that works by
+      counting the frequency of elements in the input array and using that
+      information to place elements in their correct positions. Understanding
+      Counting Sort is valuable for sorting datasets with a relatively small
+      range of values.
+    </p>
+    <br /><br />
+    <center><a href="counting.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <p><span>Counting Sort is preferred in scenarios where:</span></p>
+    <li>The input data has a small range of values.</li>
+    <li>Stability and linear time complexity are important.</li>
+
+    <h1>Algorithm</h1>
+    <pre>
+        The input data has a small range of values.
+        Stability and linear time complexity are important.
+        Algorithm
+        Counting Sort operates by counting the occurrences of each distinct element in the input array and using this information to position each element in its correct place in the sorted output array. Here's a high-level summary of the algorithm:
+
+        1. **Determine Range**: Find the range of input values (minimum and maximum).
+
+        2. **Create Count Array**: Create a count array (often referred to as the "frequency array") that can hold counts for all possible values within the range. Initialize all counts to zero.
+
+        3. **Count Occurrences**: Iterate through the input array and, for each element, increment the count at the corresponding index in the count array.
+
+        4. **Calculate Cumulative Counts**: Modify the count array to store cumulative counts. Each count now represents the number of elements less than or equal to the corresponding value.
+
+        5. **Position Elements**: Iterate through the input array in reverse order. For each element, find its count in the count array, which indicates its correct position in the output array. Decrement the count to handle duplicate elements.
+
+        6. **Build Sorted Array**: Create the sorted output array based on the positions determined in step 5.
+
+        begin CountingSort(arr)  
+           minVal = minimum value in arr
+           maxVal = maximum value in arr
+           range = maxVal - minVal + 1
+           count = array of size range initialized to zeros
+           output = array of same size as arr
+
+           // Count occurrences of each element
+           for i from 0 to length(arr) - 1
+               count[arr[i] - minVal]++
+
+           // Calculate cumulative counts
+           for i from 1 to range - 1
+               count[i] += count[i - 1]
+
+           // Position elements in output array
+           for i from length(arr) - 1 down to 0
+               output[count[arr[i] - minVal] - 1] = arr[i]
+               count[arr[i] - minVal]--
+
+           return output
+        end CountingSort
+    </pre>
+    <h1>Working of Counting Sort Algorithm</h1>
+    <pre>
+ 
+        Counting Sort is a non-comparative sorting algorithm that efficiently sorts integers or objects with integer keys. Here's a detailed explanation of how it works:
+
+        1. **Determine Range**: The algorithm starts by finding the minimum and maximum values in the input array to establish the range of possible values.
+
+        2. **Create Count Array**: A count array is created, with each index representing a possible value within the range. All counts are initialized to zero.
+
+        3. **Count Occurrences**: The input array is iterated through, and for each element, the count at the corresponding index in the count array is incremented. This step counts how many times each element appears in the input.
+
+        4. **Calculate Cumulative Counts**: The count array is modified to store cumulative counts. Each count now represents the number of elements less than or equal to the corresponding value.
+
+        5. **Position Elements**: The input array is traversed in reverse order. For each element, its count in the count array indicates its correct position in the sorted output array. The count is then decremented to handle duplicate elements.
+
+        6. **Build Sorted Array**: Finally, the sorted output array is constructed based on the positions determined in step 5.
+
+        Counting Sort's efficiency comes from its ability to directly position elements in their correct places without comparisons, making it highly efficient for datasets with a small range of values. Its time complexity is linear, making it an excellent choice for such scenarios.
+    </pre>
+  </body>
+</html>

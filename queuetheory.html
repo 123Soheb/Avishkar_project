@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Queue Data Structure</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+
+      /* Styling for the queue container */
+      .queue-container {
+        width: 300px;
+        margin: 0 auto;
+        border: 2px solid #333;
+        padding: 20px;
+        text-align: center;
+        background-color: #f9f9f9;
+      }
+
+      /* Styling for queue items */
+      .queue-item {
+        background-color: #555;
+        color: #fff;
+        padding: 5px;
+        margin-bottom: 5px;
+        border: 1px solid #333;
+      }
+
+      .explanation {
+        background-color: #f9f9f9;
+        padding: 20px;
+        margin: 20px;
+        border: 2px solid #333;
+        text-align: justify;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Queue Data Structure</h1>
+
+    <p>
+      A queue is a linear data structure that follows the First In, First Out
+      (FIFO) principle. In a queue, elements are added to the rear (end) and
+      removed from the front. It's commonly used for various applications,
+      including task scheduling, print job management, and more.
+    </p>
+    <br /><br />
+    <center><a href="queue.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <h1>Queue Visualization</h1>
+    <div class="queue-container">
+      <div class="queue-item">Item 1</div>
+      <div class="queue-item">Item 2</div>
+      <div class="queue-item">Item 3</div>
+      <div class="queue-item">Item 4</div>
+      <div class="queue-item">Item 5</div>
+    </div>
+    <p>
+      A queue is a fundamental data structure that follows the First In, First
+      Out (FIFO) principle. It behaves much like a real-world queue of people
+      waiting in line, where the person who arrives first is the first to be
+      served.
+    </p>
+
+    <p>Queues are used in a wide range of applications, including:</p>
+    <ul>
+      <li>Task scheduling in operating systems.</li>
+      <li>Print job management in printers.</li>
+      <li>Breadth-first search algorithms in graph theory.</li>
+      <li>Request handling in web servers.</li>
+    </ul>
+
+    <h1>Working of a Queue</h1>
+    <div class="explanation">
+      <p>
+        Imagine a queue as a line of items where you can only interact with the
+        front and rear. There are two primary operations associated with a
+        queue:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Enqueue:</strong> This operation adds an item to the rear of
+          the queue. It's analogous to a person joining the line.
+        </li>
+        <li>
+          <strong>Dequeue:</strong> This operation removes an item from the
+          front of the queue. It's like serving the person at the front of the
+          line.
+        </li>
+      </ul>
+
+      <p>Let's illustrate the working of a queue with a simple example:</p>
+
+      <ol>
+        <li>Initially, the queue is empty.</li>
+        <li>
+          We perform an <strong>Enqueue</strong> operation to add "Item 1" to
+          the rear of the queue. The queue now looks like this:
+        </li>
+        <div class="queue-container">
+          <div class="queue-item">Item 1</div>
+        </div>
+        <li>
+          We perform another <strong>Enqueue</strong> operation to add "Item 2"
+          to the rear of the queue. The queue now looks like this:
+        </li>
+        <div class="queue-container">
+          <div class="queue-item">Item 1</div>
+          <div class="queue-item">Item 2</div>
+        </div>
+        <li>
+          Next, we perform a <strong>Dequeue</strong> operation to remove "Item
+          1" from the front of the queue. The queue becomes:
+        </li>
+        <div class="queue-container">
+          <div class="queue-item">Item 2</div>
+        </div>
+        <li>
+          We perform another <strong>Enqueue</strong> operation to add "Item 3"
+          to the rear of the queue. The queue now looks like this:
+        </li>
+        <div class="queue-container">
+          <div class="queue-item">Item 2</div>
+          <div class="queue-item">Item 3</div>
+        </div>
+      </ol>
+
+      <p>
+        This process continues, and items are added to the rear and removed from
+        the front of the queue, following the FIFO principle.
+      </p>
+    </div>
+  </body>
+</html>

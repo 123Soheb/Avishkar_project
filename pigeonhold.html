@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible"
+		content="IE=edge">
+	<meta name="viewport" content=
+		"width=device-width, initial-scale=1.0">
+	<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap"rel="stylesheet" />
+	<title>Document</title>
+    <script src="script1.js"></script>
+    <style>
+        /* Write CSS Here */
+* {
+	color: white;
+}
+
+#span {
+	font-weight: normal;
+	text-shadow: 0 0 10px cyan,
+		0 0 40px cyan,
+		0 0 80px cyan;
+}
+
+html {
+	background-color: black;
+	font-family: "Open sans", sans-serif;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100vmin;
+}
+
+.container_2 {
+	display: flex;
+	flex-direction: column;
+}
+
+#container,
+.container_2 {
+	width: 100%;
+	margin-top: 15%;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	font-size: 5vmin;
+	letter-spacing: 2vmin;
+	font-weight: normal;
+	letter-spacing: normal;
+}
+
+.tile {
+	/* width: 5vmin; */
+	height: 5vmin;
+	margin: 10px;
+	text-align: center;
+	height: fit-content;
+}
+
+.onover {
+	color: cyan;
+}
+
+#answer {
+	font-size: 5vmin;
+}
+
+#message {
+	color: cyan;
+	font-size: 3vmin;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	margin: 1vmin;
+}
+
+#start {
+	align-self: center;
+	background-color: black;
+	font-size: 3vmin;
+	box-sizing: border-box;
+	padding: 1vmin;
+	color: white;
+	cursor: pointer;
+	border: none;
+	margin-top: 2vmin;
+	transition: 0.5s ease-in-out;
+	font-weight: bold;
+	letter-spacing: 4px;
+}
+
+#start:hover {
+	transform: scale(1.5);
+	text-shadow: 0 0 10px cyan,
+		0 0 20px cyan,
+		0 0 40px cyan;
+}
+
+#odd {
+	text-shadow: 0 0 10px red,
+		0 0 20px red,
+		0 0 40px red;
+}
+
+#even {
+	text-shadow: 0 0 10px orange,
+		0 0 20px orange,
+		0 0 40px orange;
+}
+
+#array {
+	display: flex;
+	font-size: 10vmin;
+}
+
+#currentsum,
+#answer {
+	padding: 1vmin;
+	font-size: 3vmin;
+	letter-spacing: 2px;
+}
+
+.header {
+	text-align: center;
+	padding: 1vmin;
+	width: 100%;
+	font-size: 6vmin;
+	letter-spacing: 2px;
+	border-bottom: 1px solid white;
+}
+
+input {
+	margin-top: 2vmin;
+}
+
+    </style>
+</head>
+
+<body>
+	<div class="header"><span id="span">P</span>igeonhole
+		<span id="span">A</span>lgorithm
+	</div>
+	<div id="container"></div>
+	<div id="container_2" class="container_2"></div>
+	<div id="message"></div>
+	<div id="start">Start</div>
+</body>
+
+
+</html>

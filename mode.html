@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frequency Distribution Statistics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      .header {
+        padding: 20px;
+        margin-right: 20vw;
+
+        text-align: center;
+        width: 100%;
+        background-color: #37ac4e;
+        color: white;
+        border-radius: 19px;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .input-table {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+
+      .input-table th,
+      .input-table td {
+        padding: 8px;
+        text-align: center;
+        border: 5px solid #ccc;
+      }
+
+      .output-container {
+        margin-top: 20px;
+      }
+      button {
+        margin: 10px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        background-color: #37ac4e;
+        color: white;
+        border-radius: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 class="header">Frequency Distribution Statistics</h2>
+      <p>Write the value in box</p>
+      <table class="input-table">
+        <thead>
+          <tr>
+            <th>Class</th>
+            <th>Mid Value (xi)</th>
+            <th>Frequency (fi)</th>
+            <th>Cumulative Frequency</th>
+          </tr>
+        </thead>
+        <tbody id="dataTable">
+          <tr>
+            <td contenteditable>0-10</td>
+            <td contenteditable>5</td>
+            <td contenteditable>8</td>
+            <td contenteditable>8</td>
+          </tr>
+          <tr>
+            <td contenteditable>10-20</td>
+            <td contenteditable>15</td>
+            <td contenteditable>16</td>
+            <td contenteditable>24</td>
+          </tr>
+          <tr>
+            <td contenteditable>20-30</td>
+            <td contenteditable>25</td>
+            <td contenteditable>36</td>
+            <td contenteditable>60</td>
+          </tr>
+          <tr>
+            <td contenteditable>30-40</td>
+            <td contenteditable>35</td>
+            <td contenteditable>34</td>
+            <td contenteditable>94</td>
+          </tr>
+          <tr>
+            <td contenteditable>40-50</td>
+            <td contenteditable>45</td>
+            <td contenteditable>6</td>
+            <td contenteditable>100</td>
+          </tr>
+        </tbody>
+      </table>
+      <button onclick="calculateStatistics()">Calculate</button>
+      <button onclick="refresh()">reset</button>
+      <div class="output-container">
+        <p>Mean: <span id="meanResult"></span></p>
+        <p>Median: <span id="medianResult"></span></p>
+        <p>Mode: <span id="modeResult"></span></p>
+      </div>
+      <div class="chart-container">
+        <canvas id="chart"></canvas>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+      function refresh() {
+        window.location.reload();
+      }
+
+      function calculateStatistics() {
+        const meanResult = document.getElementById("meanResult");
+        const medianResult = document.getElementById("medianResult");
+        const modeResult = document.getElementById("modeResult");
+        const tableRows = document.querySelectorAll("#dataTable tr");
+
+        let totalObservations = 0;
+        let cumulativeFrequency = 0;
+        let sumFiXi = 0;
+
+        tableRows.forEach((row, index) => {
+          if (index > 0) {
+            const midValue = parseFloat(row.cells[1].textContent);
+            const frequency = parseFloat(row.cells[2].textContent);
+
+            totalObservations += frequency;
+            cumulativeFrequency += frequency;
+            sumFiXi += midValue * frequency;
+          }
+        });
+
+        const mean = sumFiXi / totalObservations;
+
+        let median;
+        let medianPosition = totalObservations / 2;
+        tableRows.forEach((row, index) => {
+          if (index > 0) {
+            cumulativeFrequency -= parseFloat(row.cells[2].textContent);
+            if (cumulativeFrequency < medianPosition) {
+              median = parseFloat(row.cells[1].textContent);
+            }
+          }
+        });
+
+        let mode = 0;
+        let maxFrequency = 0;
+        tableRows.forEach((row, index) => {
+          if (index > 0) {
+            const frequency = parseFloat(row.cells[2].textContent);
+            if (frequency > maxFrequency) {
+              maxFrequency = frequency;
+              mode = parseFloat(row.cells[1].textContent);
+            }
+          }
+        });
+
+        meanResult.textContent = mean.toFixed(2);
+        medianResult.textContent = median.toFixed(2);
+        modeResult.textContent = mode.toFixed(2);
+
+        // Create or update the bar chart
+        const ctx = document.getElementById("chart").getContext("2d");
+        if (window.myChart) {
+          window.myChart.destroy();
+        }
+        window.myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Mean", "Median", "Mode"],
+            datasets: [
+              {
+                label: "Value",
+                data: [mean.toFixed(2), median.toFixed(2), mode.toFixed(2)],
+                backgroundColor: [
+                  "rgba(75, 192, 192, 0.5)",
+                  "rgba(54, 162, 235, 0.5)",
+                  "rgba(255, 99, 132, 0.5)",
+                ],
+                borderColor: [
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 99, 132, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+          },
+        });
+        for (let i = 1; i <= 3; i++) {
+          tableRows.forEach((e) => {
+            console.log(e.cells[i].textContent);
+            const value = e.cells[i].textContent;
+            const regex = /\d+/;
+            if (regex.test(value)) {
+              console.log("correct");
+            } else {
+              alert("enter the number");
+              meanResult.textContent = "";
+              medianResult.textContent = "";
+              modeResult.textContent = "";
+              ctx.textContent = "";
+            }
+          });
+        }
+      }
+    </script>
+  </body>
+</html>

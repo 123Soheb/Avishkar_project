@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+
+      .header {
+        margin-right: 20vw;
+        margin-left: 20vw;
+        margin-bottom: 5px;
+        padding: 5px;
+        text-align: center;
+        font-size: 30px;
+        background-color: #a50e85;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+
+      #array {
+        height: 450px;
+        width: 900px;
+        border: 2px solid black;
+        position: relative;
+        margin-left: 20%;
+      }
+
+      .block {
+        width: 28px;
+        background-color: #6b5b95;
+        position: absolute;
+        bottom: 0px;
+        transition: 0.2s all ease;
+      }
+
+      .block2 {
+        width: 28px;
+        margin-left: 5px;
+        background-color: darkgray;
+        position: absolute;
+        transition: 0.2s all ease;
+      }
+      .block_id {
+        position: absolute;
+        color: black;
+        margin-top: -20px;
+        width: 100%;
+        text-align: center;
+      }
+      .block_id2 {
+        position: absolute;
+        color: black;
+        margin-top: 20px;
+        width: 100%;
+        text-align: center;
+      }
+
+      .block_id3 {
+        position: absolute;
+        color: black;
+        margin-top: 1px;
+        width: 100%;
+        text-align: center;
+      }
+
+      #count {
+        height: 50px;
+        width: 60%;
+        margin-left: 20%;
+      }
+      button {
+        padding: 12px;
+        font-weight: bolder;
+        background-color: #a50e85;
+        border-radius: 10px;
+        color: white;
+        font-size: 16px;
+        border: rgba(26, 26, 26, 0.505);
+      }
+      p {
+        border: 3px solid #a50e85;
+        width: 70%;
+        padding: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div>
+      <h1 class="header">Counting Sort</h1>
+
+      <div id="array"></div>
+
+      <div id="count"></div>
+      <center><div id="sortingStatus"></div></center>
+      <button onclick="generate()">Generate Array</button>
+      <!-- <button onclick=" CountingSort()">Counting Start</button> -->
+      <button id="startResetButton" onclick="startOrReset()">
+        Counting Sort
+      </button>
+
+      <button onclick="setAnimationSpeed('slow')">Slow</button>
+      <button onclick="setAnimationSpeed('normal')">Normal</button>
+      <button onclick="setAnimationSpeed('fast')">Fast</button>
+      <p>
+        <b
+          >This sorting technique doesn't perform sorting by comparing
+          elements.<br />
+          It performs sorting by counting objects having distinct key values
+          like hashing.<br />
+          After that, it performs some arithmetic operations to calculate each
+          object's index position in the output sequence.<br />
+          Counting sort is not used as a general-purpose sorting algorithm.</b
+        >
+      </p>
+    </div>
+
+    <script>
+      var container = document.getElementById("array");
+      var isSorting = false;
+      function generatearray() {
+        for (var i = 0; i < 30; i++) {
+          var value = Math.ceil(Math.random() * 30);
+          var array_ele = document.createElement("div");
+          array_ele.classList.add("block");
+          array_ele.style.height = `${value * 13}px`;
+          array_ele.style.transform = `translate(${i * 30}px)`;
+          var array_ele_label = document.createElement("label");
+          array_ele_label.classList.add("block_id");
+          array_ele_label.innerText = value;
+          array_ele.appendChild(array_ele_label);
+          container.appendChild(array_ele);
+        }
+      }
+
+      // Function to generate the frequency array
+      var count_container = document.getElementById("count");
+      function generate_freq() {
+        for (var i = 0; i < 30; i++) {
+          var array_ele2 = document.createElement("div");
+          array_ele2.classList.add("block2");
+          array_ele2.style.height = `${20}px`;
+          array_ele2.style.transform = `translate(${i * 30}px)`;
+          var array_ele_idx = document.createElement("label");
+          array_ele_idx.classList.add("block_id2");
+          array_ele_idx.innerText = i + 1;
+
+          //giving initial freq to all blocks as 0
+          var array_ele_label2 = document.createElement("label");
+          array_ele_label2.classList.add("block_id3");
+          array_ele_label2.innerText = 0;
+
+          // Appending created elements to index.html
+          array_ele2.appendChild(array_ele_label2);
+          array_ele2.appendChild(array_ele_idx);
+          count_container.appendChild(array_ele2);
+        }
+      }
+
+      // Asynchronous CountingSort function
+      async function CountingSort() {
+        var blocks = document.querySelectorAll(".block");
+
+        // To store frequency of every block
+        for (var i = 0; i < blocks.length; i += 1) {
+          //To highlight the current traversed block
+          blocks[i].style.backgroundColor = "#FF4949";
+
+          //Extracting the value of current block
+          var value = Number(blocks[i].childNodes[0].innerHTML);
+
+          var freq_array = document.getElementsByClassName("block_id3");
+          freq_array[value - 1].innerText++;
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, animationSpeed)
+          );
+
+          //Changing to previous color
+          blocks[i].style.backgroundColor = "#6b5b95";
+        }
+
+        //Sorting by using frequency array
+        var idx = 0;
+        for (var i = 0; i < blocks.length; i += 1) {
+          var freq = document.getElementsByClassName("block_id3");
+
+          var temp = Number(freq[i].innerText);
+
+          var freq_block = document.getElementsByClassName("block2");
+
+          //changing color of freq block
+          freq_block[i].style.backgroundColor = "#FF4949";
+
+          // To wait for .1 sec
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, 2 * animationSpeed)
+          );
+
+          if (temp == 0) {
+            //changing color of freq block to previous one
+            freq_block[i].style.backgroundColor = "darkgray";
+            continue;
+          }
+
+          var block_label = document.getElementsByClassName("block_id");
+
+          //sorting the block array
+          for (var j = 0; j < temp; j++) {
+            blocks[idx].style.height = `${(i + 1) * 13}px`;
+            block_label[idx].innerText = i + 1;
+            idx++;
+          }
+
+          //changing color of freq block to previous one
+          freq_block[i].style.backgroundColor = "darkgray";
+
+          // To wait for .1 sec
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, 2 * animationSpeed)
+          );
+        }
+        document.getElementById("sortingStatus").textContent =
+          "Sorting completed!";
+
+        for (let x = 0; x < 30; x++) {
+          blocks[x].style.backgroundColor = "rgb(49, 226, 13)";
+        }
+      }
+
+      let animationSpeed = 300;
+
+      function setAnimationSpeed(speed) {
+        switch (speed) {
+          case "slow":
+            animationSpeed = 800;
+            break;
+          case "normal":
+            animationSpeed = 300;
+            break;
+          case "fast":
+            animationSpeed = 100;
+            break;
+          default:
+            animationSpeed = 300;
+        }
+      }
+      function generate() {
+        window.location.reload();
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          CountingSort();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Counting Sort";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+
+      // Calling generatearray function
+      generatearray();
+
+      // Calling generate_freq function
+      generate_freq();
+    </script>
+  </body>
+</html>

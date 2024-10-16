@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" />
+    <style>
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+      .header {
+        margin-top: 20px;
+        margin-bottom: 10px;
+        padding: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: rgb(49, 226, 13);
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      #array {
+        width: 900px;
+        margin: auto;
+        height: 384px;
+        position: relative;
+        border: 3px solid #1683a8;
+      }
+      .block {
+        width: 28px;
+        background-color: #459e98;
+        position: absolute;
+        bottom: 0px;
+        transition: 0.2s all ease;
+      }
+      .block_id {
+        position: absolute;
+        color: black;
+        margin-top: -20px;
+        width: 100%;
+        text-align: center;
+      }
+      .block_id2 {
+        position: absolute;
+        color: black;
+        margin-top: 22px;
+        width: 100%;
+        text-align: center;
+      }
+      .block2 {
+        width: 28px;
+        background-color: darkgray;
+        position: absolute;
+        transition: 0.2s all ease;
+      }
+      .block_id3 {
+        position: absolute;
+        color: black;
+        margin-top: 1px;
+        width: 100%;
+        text-align: center;
+      }
+      #count {
+        width: 900px;
+        height: 50px;
+        margin: auto;
+      }
+      button {
+        padding: 12px;
+        font-weight: bolder;
+        background-color: rgb(49, 226, 13);
+        border-radius: 10px;
+        margin-right: 10px;
+        color: white;
+        font-size: 16px;
+        border: white;
+        padding: 10px 20px;
+      }
+      .container {
+        border: 2px solid black;
+        min-width: 60rem;
+      }
+    </style>
+  </head>
+
+  <body>
+    <br />
+    <div class="container">
+      <h1 class="header">Heap Sort</h1>
+      <div id="array"></div>
+      <div id="count"></div>
+      <center><div id="sortingStatus"></div></center>
+      <button id="Button1" , onclick="generateRandomArray()">
+        Generate Random Array
+      </button>
+      <button id="startResetButton" onclick="startOrReset()">Heap Sort</button>
+      <button onclick="setAnimationSpeed('slow')">Slow</button>
+      <button onclick="setAnimationSpeed('normal')">Normal</button>
+      <button onclick="setAnimationSpeed('fast')">Fast</button>
+    </div>
+    <script>
+      let container = document.getElementById("array");
+      var isSorting = false;
+
+      function generatearray() {
+        for (let i = 0; i < 30; i++) {
+          let value = Math.ceil(Math.random() * 100);
+          let array_ele = document.createElement("div");
+          array_ele.classList.add("block");
+          array_ele.style.height = `${value * 3}px`;
+          array_ele.style.transform = `translate(${i * 30}px)`;
+          let array_ele_label = document.createElement("label");
+          array_ele_label.classList.add("block_id");
+          array_ele_label.innerText = value;
+          array_ele.appendChild(array_ele_label);
+          container.appendChild(array_ele);
+        }
+      }
+
+      let count_container = document.getElementById("count");
+      function generate_idx() {
+        for (let i = 0; i < 30; i++) {
+          let array_ele2 = document.createElement("div");
+          array_ele2.classList.add("block2");
+
+          array_ele2.style.height = `${20}px`;
+          array_ele2.style.transform = `translate(${i * 30}px)`;
+
+          // Giving indexes
+          let array_ele_label2 = document.createElement("label");
+          array_ele_label2.classList.add("block_id3");
+          array_ele_label2.innerText = i;
+
+          // Appending created elements to index.html
+          array_ele2.appendChild(array_ele_label2);
+          count_container.appendChild(array_ele2);
+        }
+      }
+
+      // Asynchronous Heapify function
+      async function Heapify(n, i) {
+        let blocks = document.querySelectorAll(".block");
+
+        let largest = i; // Initialize largest as root
+        let l = 2 * i + 1; // left = 2*i + 1
+        let r = 2 * i + 2; // right = 2*i + 2
+
+        // If left child is larger than root
+        if (
+          l < n &&
+          Number(blocks[l].childNodes[0].innerHTML) >
+            Number(blocks[largest].childNodes[0].innerHTML)
+        )
+          largest = l;
+
+        // If right child is larger than largest so far
+        if (
+          r < n &&
+          Number(blocks[r].childNodes[0].innerHTML) >
+            Number(blocks[largest].childNodes[0].innerHTML)
+        )
+          largest = r;
+
+        // If largest is not root
+        if (largest != i) {
+          let temp1 = blocks[i].style.height;
+          blocks[i].style.backgroundColor = "blue";
+          let temp2 = blocks[i].childNodes[0].innerText;
+          blocks[i].style.height = blocks[largest].style.height;
+
+          blocks[largest].style.height = temp1;
+          blocks[largest].style.backgroundColor = "red";
+          blocks[i].childNodes[0].innerText =
+            blocks[largest].childNodes[0].innerText;
+          blocks[largest].childNodes[0].innerText = temp2;
+
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, animationSpeed)
+          );
+
+          // Recursively Hapify the affected sub-tree
+          await Heapify(n, largest);
+        }
+      }
+
+      // Asynchronous HeapSort function
+      async function HeapSort(n) {
+        let blocks = document.querySelectorAll(".block");
+
+        // Build heap (rearrange array)
+        for (let i = n / 2 - 1; i >= 0; i--) {
+          await Heapify(n, i);
+        }
+
+        // One by one extract an element from heap
+        for (let i = n - 1; i > 0; i--) {
+          // Move current root to end
+          let temp1 = blocks[i].style.height;
+          let temp2 = blocks[i].childNodes[0].innerText;
+          blocks[i].style.height = blocks[0].style.height;
+          blocks[0].style.height = temp1;
+          blocks[i].childNodes[0].innerText = blocks[0].childNodes[0].innerText;
+          blocks[i].style.backgroundColor = "rgb(49, 226, 13)";
+          blocks[0].childNodes[0].innerText = temp2;
+
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, animationSpeed)
+          );
+
+          // Call max Heapify on the reduced heap
+          await Heapify(i, 0);
+        }
+        for (let x = 0; x < 30; x++) {
+          blocks[x].style.backgroundColor = "rgb(49, 226, 13)";
+        }
+
+        document.getElementById("sortingStatus").textContent =
+          "Sorting completed!";
+      }
+
+      let animationSpeed = 300;
+
+      function setAnimationSpeed(speed) {
+        switch (speed) {
+          case "slow":
+            animationSpeed = 800;
+            break;
+          case "normal":
+            animationSpeed = 300;
+            break;
+          case "fast":
+            animationSpeed = 100;
+            break;
+          default:
+            animationSpeed = 300;
+        }
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          startSort();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Heap Sort";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+
+      // Calling generatearray function
+      generatearray();
+      // Calling generate_idx function
+      generate_idx();
+      // Calling HeapSort function
+      function startSort() {
+        HeapSort(30);
+      }
+      function generateRandomArray() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

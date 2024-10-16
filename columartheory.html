@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Columnar Transposition Cipher</title>
+    <style>
+      /* Your CSS styles here */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        padding: 0;
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      h1 {
+        text-align: center;
+        color: green;
+        background-color: #f9f9f9;
+        padding: 10px;
+        margin-bottom: 20px;
+      }
+
+      p,
+      li {
+        text-indent: 50px;
+        margin-left: 80px;
+        padding: 10px;
+        margin-right: 80px;
+        text-align: justify;
+        line-height: 1.6;
+        transition: background-color 0.3s;
+      }
+
+      pre {
+        font-family: Arial, sans-serif;
+        margin-left: 60px;
+        margin-right: 60px;
+        padding: 10px;
+        border: 2px solid #10100fe3;
+        background-color: #f9f9f9;
+        overflow-x: auto;
+        transition: box-shadow 0.3s;
+      }
+
+      pre code {
+        display: block;
+        white-space: pre;
+        background-color: #f1f1f1;
+        border: 2px solid#22221f;
+        padding: 5px;
+      }
+
+      p:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      pre:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+
+      .a1 {
+        font-size: 32px;
+        text-align: center;
+        padding: 20px;
+        text-decoration: none;
+        max-width: 350px;
+        display: block;
+        background: #dfe2e9e2;
+        cursor: pointer;
+        border: 2px solid #e3f027;
+        border-radius: 50px;
+        box-shadow: 10px 10px 10px -1px;
+        color: #e3f027;
+      }
+
+      .a1:hover {
+        background-color: #e3f027;
+        color: #12001b;
+      }
+      @media (max-width: 400px) {
+        body {
+          font-size: 12px;
+        }
+        .a1 {
+          font-size: 22px;
+        }
+        pre,
+        li,
+        p {
+          margin-left: 0px;
+          margin-right: 0px;
+          border: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Columnar Transposition Cipher</h1>
+
+    <p>
+      The Columnar Transposition Cipher is a transposition cipher that
+      rearranges the order of the letters in the plaintext according to a
+      certain system. Here's how it works:
+    </p>
+    <br /><br />
+    <center><a href="Columnar.html" class="a1">START VISUALIZER</a></center>
+    <br /><br />
+
+    <ol>
+      <li>
+        <strong>Key:</strong> The key is a secret word or phrase that determines
+        the arrangement of the columns. The unique letters in the key are
+        written in alphabetical order to create the key.
+      </li>
+      <li>
+        <strong>Encryption:</strong> To encrypt a message, write the plaintext
+        in rows under the columns determined by the key. If there are extra
+        spaces in the last row, fill them with any character (often 'X'). Then,
+        read the ciphertext column by column, starting from the column with the
+        first letter of the key, and so on.
+      </li>
+      <li>
+        <strong>Decryption:</strong> To decrypt the ciphertext, the recipient
+        uses the same key to determine the order of the columns. Then, the
+        ciphertext is written in rows under the columns, and the plaintext is
+        read row by row.
+      </li>
+    </ol>
+
+    <h2>Example</h2>
+
+    <p>
+      Let's encrypt the message "HELLO" using the key "SECRET." First, we
+      arrange the columns based on the alphabetical order of the unique letters
+      in the key:
+    </p>
+
+    <pre>
+        Key:   C E R S T
+        ----------------
+        Text:  H E L L O
+    </pre>
+
+    <p>Now, we read the ciphertext column by column:</p>
+
+    <pre>
+        C E R S T
+        ---------
+        H E L L O
+    </pre>
+
+    <p>
+      So, "HELLO" encrypted using the Columnar Transposition Cipher with the key
+      "SECRET" becomes "HOELL."
+    </p>
+
+    <p>
+      The security of this cipher depends on the key, and it is important to
+      keep the key secret. Repeating characters in the key are given a unique
+      label (e.g., "SECRTO" would become "SECRTOX" with 'X' as a filler).
+    </p>
+
+    <p>
+      <strong>Advantages:</strong>
+      - Provides a level of security. - Requires knowledge of the key to
+      decrypt.
+    </p>
+
+    <p>
+      <strong>Disadvantages:</strong>
+      - Vulnerable to frequency analysis. - Security depends on the key and its
+      secrecy.
+    </p>
+  </body>
+</html>

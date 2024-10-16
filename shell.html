@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Head Section -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,
+		initial-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+    <!-- title -->
+    <title>Shell Sort Visualizer using JavaScript</title>
+  </head>
+  <style>
+    body {
+      background-color: rgb(255, 235, 211);
+      font-family: Verdana, sans-serif;
+    }
+    .head {
+      margin-top: 20px;
+      margin-right: 20vw;
+      margin-left: 20vw;
+      padding: 10px;
+      margin-bottom: 10px;
+      text-align: center;
+      font-size: 30px;
+      background-color: #2a15b4;
+      color: white;
+      border-radius: 19px;
+      font-weight: bolder;
+    }
+    .data-container {
+      width: 900px;
+      height: 364px;
+      position: relative;
+      border: 3px solid #2a15b4;
+    }
+    .bar {
+      width: 28px;
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      background-color: rgb(0, 183, 255);
+      transition: 0.2s all ease;
+    }
+    .bar_id {
+      margin-top: -24px;
+      width: 100%;
+      display: block;
+      text-align: center;
+    }
+
+    #ele {
+      text-align: center;
+      height: 35px;
+    }
+    button {
+      padding: 12px;
+      font-weight: bolder;
+      background-color: #2a15b4;
+      border-radius: 10px;
+      color: white;
+      font-size: 16px;
+      border: rgba(26, 26, 26, 0.505);
+    }
+    p {
+      border: 3px solid #2a15b4;
+      width: 60%;
+      padding: 10px;
+    }
+    .container {
+      border: 2px solid black;
+      min-width: 60rem;
+    }
+  </style>
+
+  <body>
+    <div class="container">
+      <h1 class="head">Shell Sort</h1>
+      <center><section class="data-container"></section></center>
+
+      <center><div id="sortingStatus"></div></center>
+      <br />
+      <div style="margin: auto; width: fit-content">
+        <!-- "Generate New Array" button -->
+        <button class="btn1" onclick="generate()" id="Button1">
+          Generate New Array
+        </button>
+        <button id="startResetButton" class="btn2" onclick="startOrReset()">
+          Shell Start
+        </button>
+        <button onclick="setAnimationSpeed('slow')">Slow</button>
+        <button onclick="setAnimationSpeed('normal')">Normal</button>
+        <button onclick="setAnimationSpeed('fast')">Fast</button>
+      </div>
+      <p>
+        <b
+          >It is a sorting algorithm that is an extended version of insertion
+          sort.<br />
+          Shell sort has improved the average time complexity of insertion
+          sort.<br />
+          As similar to insertion sort, it is a comparison-based and in-place
+          sorting algorithm.<br />
+          Shell sort is efficient for medium-sized data sets.<br />
+          In insertion sort, at a time, elements can be moved ahead by one
+          position only.<br />
+          To move an element to a far-away position,<br />
+          many movements are required that increase the algorithm's execution
+          time.<br />
+          But shell sort overcomes this drawback of insertion sort.<br />
+          It allows the movement and swapping of far-away elements as well.</b
+        >
+      </p>
+    </div>
+
+    <!-- linking script.js -->
+    <script>
+      var isSorting = false;
+      const container = document.querySelector(".data-container");
+
+      // Function to generate bars
+      function generatebars(num = 30) {
+        // For loop to generate 20 bars
+        for (let i = 0; i < num; i += 1) {
+          // To generate random values from 1 to 100
+          const value = Math.floor(Math.random() * 100) + 1;
+
+          // To create element "div"
+          const bar = document.createElement("div");
+
+          // To add class "bar" to "div"
+          bar.classList.add("bar");
+
+          // Provide height to the bar
+          bar.style.height = `${value * 3}px`;
+
+          // Translate the bar towards positive X axis
+          bar.style.transform = `translateX(${i * 30}px)`;
+
+          // To create element "label"
+          const barLabel = document.createElement("label");
+
+          // To add class "bar_id" to "label"
+          barLabel.classList.add("bar_id");
+
+          // Assign value to "label"
+          barLabel.innerHTML = value;
+
+          // Append "Label" to "div"
+          bar.appendChild(barLabel);
+
+          // Append "div" to "data-container div"
+          container.appendChild(bar);
+        }
+      }
+
+      // Asynchronous function to perform "Shell Sort"
+      async function ShellSort() {
+        let bars = document.querySelectorAll(".bar");
+
+        for (var i = 10; i > 0; i = Math.floor(i / 2)) {
+          // To pause the execution of code
+          // for 300 milliseconds
+          await new Promise((resolve) =>
+            setTimeout(() => {
+              resolve();
+            }, animationSpeed)
+          );
+
+          for (var j = i; j < 30; j++) {
+            var temp = parseInt(bars[j].childNodes[0].innerHTML);
+            var k;
+
+            var temp1 = bars[j].style.height;
+            var temp2 = bars[j].childNodes[0].innerText;
+
+            for (
+              k = j;
+              k >= i && parseInt(bars[k - i].childNodes[0].innerHTML) > temp;
+              k -= i
+            ) {
+              bars[k].style.height = bars[k - i].style.height;
+              bars[k].style.backgroundColor = "yellow";
+
+              bars[k].childNodes[0].innerText =
+                bars[k - i].childNodes[0].innerText;
+
+              // To pause the execution of code
+              // for 300 milliseconds
+              await new Promise((resolve) =>
+                setTimeout(() => {
+                  resolve();
+                }, animationSpeed)
+              );
+            }
+
+            // Provide darkblue color to the jth bar
+            bars[j].style.backgroundColor = "darkblue";
+
+            // Provide darkblue color to the kth bar
+            bars[k].style.backgroundColor = "red";
+            bars[k].style.height = temp1;
+            bars[k].childNodes[0].innerText = temp2;
+            bars[j].style.backgroundColor = "darkblue";
+
+            // Provide darkblue color to the kth bar
+            bars[k].style.backgroundColor = "red";
+
+            // To pause the execution of code for
+            // 300 milliseconds
+            await new Promise((resolve) =>
+              setTimeout(() => {
+                resolve();
+              }, animationSpeed)
+            );
+
+            // Provide skyblue color to the jth bar
+            bars[j].style.backgroundColor = "rgb(0, 183, 255)";
+
+            // Provide skyblue color to the kth bar
+            bars[k].style.backgroundColor = "rgb(0, 183, 255)";
+
+            // To pause the execution of code for
+            // 300 milliseconds
+            await new Promise((resolve) =>
+              setTimeout(() => {
+                resolve();
+              }, animationSpeed)
+            );
+          }
+        }
+        for (var x = 0; x < 30; x++) {
+          bars[x].style.backgroundColor = "rgb(49, 226, 13)";
+        }
+        document.getElementById("sortingStatus").textContent =
+          "Sorting completed!";
+      }
+
+      let animationSpeed = 300;
+
+      function setAnimationSpeed(speed) {
+        switch (speed) {
+          case "slow":
+            animationSpeed = 800;
+            break;
+          case "normal":
+            animationSpeed = 300;
+            break;
+          case "fast":
+            animationSpeed = 100;
+            break;
+          default:
+            animationSpeed = 300;
+        }
+      }
+
+      function startOrReset() {
+        const button = document.getElementById("startResetButton");
+
+        if (!isSorting) {
+          // Start functionality
+          isSorting = true;
+          button.textContent = "Reset";
+          ShellSort();
+        } else {
+          // Reset functionality
+          isSorting = false;
+          button.textContent = "Shell Start";
+          resetVisualization();
+        }
+      }
+
+      function resetVisualization() {
+        window.location.reload();
+      }
+
+      // Call "generatebars()" function
+      generatebars();
+
+      // Function to generate new random array
+      function generate() {
+        window.location.reload();
+      }
+    </script>
+  </body>
+</html>

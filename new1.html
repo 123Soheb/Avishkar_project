@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>One-Time Pad Encryption A to z number and symbol</title>
+    <style>
+      h1 {
+        padding: 20px;
+        margin-bottom: 10px;
+        margin-right: 20vw;
+        margin-left: 20vw;
+        text-align: center;
+        font-size: 30px;
+        background-color: #e3248d;
+        color: white;
+        border-radius: 19px;
+        font-weight: bolder;
+      }
+      label {
+        display: inline-block;
+        margin-left: 500px;
+        font-size: 25px;
+      }
+      button {
+        margin-top: 10px;
+        margin-left: 500px;
+        height: 50px;
+        width: 140px;
+        font-size: 25px;
+        background-color: #e3248d;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.2s;
+        border: none;
+      }
+      .message {
+        height: 180px;
+        width: 400px;
+        margin-bottom: 30px;
+
+        padding: 10px;
+        font-size: 30px;
+        border-radius: 10px;
+        background-color: bisque;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 500px;
+      }
+      .message:hover {
+        box-shadow: 10px 10px 10px 10px;
+      }
+      h2 {
+        margin-left: 500px;
+      }
+      #encrypted,
+      #decrypted {
+        margin-left: 500px;
+        background-color: #e3248d;
+        width: fit-content;
+        font-size: 30px;
+      }
+
+      #encrypted:hover,
+      #decrypted:hover {
+        margin-bottom: 50px;
+        margin-left: 500px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #d35c51;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: exampe;
+        animation-duration: 4s;
+      }
+      @keyframes exampe {
+        0% {
+          background-color: rgb(224, 115, 42);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+
+      div {
+        margin-bottom: 50px;
+        margin-left: 500px;
+        font-size: 25px;
+        width: fit-content;
+        background-color: #d35c51;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: 0.5s;
+        border: 5px solid black;
+        animation-name: exampe;
+        animation-duration: 4s;
+      }
+      @keyframes exampe {
+        0% {
+          background-color: rgb(224, 115, 42);
+        }
+        100% {
+          background-color: rgb(17, 92, 255);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Only one time Encryption</h1>
+    <label for="message">Message:</label><br />
+    <textarea
+      id="plaintext"
+      class="message"
+      placeholder="Enter plaintext"
+    ></textarea>
+    <br />
+    <button onclick="encrypt()">Encrypt</button>
+    <br />
+    <h2>Encrypted Text:</h2>
+    <p id="encrypted"></p>
+    <label for="key">Key:</label><br />
+    <p id="key"></p>
+    <button onclick="decrypt()">Decrypt</button>
+
+    <h2>Steps:</h2>
+    <p id="steps"></p>
+    <h2>Decrypted Text:</h2>
+    <p id="decrypted"></p>
+
+    <script>
+      function shuffleString(inputString) {
+        const characters = inputString.split("");
+        for (let i = characters.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [characters[i], characters[j]] = [characters[j], characters[i]];
+        }
+        return characters.join("");
+      }
+
+      function generateRandomKey(length) {
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_-+=[]{}|;:,.<>?";
+        const shuffledString = shuffleString(characters); // Get the shuffled string
+        let key = "";
+        for (let i = 0; i < length; i++) {
+          const randomIndex = Math.floor(Math.random() * shuffledString.length);
+          key += shuffledString[randomIndex];
+        }
+        return key;
+      }
+
+      function encrypt() {
+        const plaintext = document
+          .getElementById("plaintext")
+          .value.toUpperCase();
+        const key = generateRandomKey(plaintext.length);
+
+        let encryptedText = "";
+
+        document.getElementById("steps").textContent = "";
+        document.getElementById("key").innerHTML = `<div>Key: ${key}</div>`;
+
+        for (let i = 0; i < plaintext.length; i++) {
+          const charCode = (plaintext.charCodeAt(i) + key.charCodeAt(i)) % 256;
+          encryptedText += String.fromCharCode(charCode);
+
+          const stepText = `<div>(${plaintext[i]} + ${
+            key[i]
+          }) % 256 = ${String.fromCharCode(charCode)}<br></div>`;
+          document.getElementById("steps").innerHTML += stepText;
+        }
+
+        document.getElementById("encrypted").textContent = encryptedText;
+      }
+
+      function decrypt() {
+        const encryptedText = document.getElementById("encrypted").textContent;
+        const key = document.getElementById("key").textContent.substring(5);
+        let decryptedText = "";
+
+        document.getElementById("steps").textContent = "";
+
+        for (let i = 0; i < encryptedText.length; i++) {
+          const charCode =
+            (encryptedText.charCodeAt(i) - key.charCodeAt(i) + 256) % 256;
+          decryptedText += String.fromCharCode(charCode);
+
+          const stepText = `<div>(${encryptedText[i]} - ${
+            key[i]
+          }) + 256 % 256 = ${String.fromCharCode(charCode)}<br></div>`;
+          document.getElementById("steps").innerHTML += stepText;
+        }
+
+        document.getElementById("decrypted").textContent = decryptedText;
+      }
+    </script>
+  </body>
+</html>
