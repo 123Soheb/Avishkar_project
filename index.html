@@ -49,6 +49,7 @@
         display: flex;
         flex-direction: column;
         font-size: 100%;
+        width: 100%;
         justify-content: center;
       }
 
@@ -226,8 +227,18 @@
             0 0 80px #03bcf4, 0 0 40px #03bcf4;
         }
       }
-      @media (max-width: 700px) and (min-width: 400px) {
+      @media (max-width: 1400px) and (min-width: 400px) {
         .lean {
+          font-size: 40px;
+        }
+        * {
+          margin: 0;
+          padding: 0;
+        }
+        button {
+          display: none;
+        }
+        .item1 {
           font-size: 40px;
         }
       }
@@ -240,6 +251,16 @@
         }
         .grid-container > div {
           font-size: 20px;
+        }
+        * {
+          margin: 0;
+          padding: 0;
+        }
+        button {
+          display: none;
+        }
+        .item1 {
+          font-size: 25px;
         }
       }
     </style>
